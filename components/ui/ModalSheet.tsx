@@ -1,0 +1,92 @@
+import { Ionicons } from '@expo/vector-icons';
+import React, { ReactNode } from 'react';
+import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
+
+interface ModalSheetProps {
+    visible: boolean;
+    onClose: () => void;
+    children: ReactNode;
+    animationType?: 'slide' | 'fade' | 'none';
+    /** Si true, le modal monte depuis le bas (bottom sheet). Sinon centré. */
+    bottomSheet?: boolean;
+    showCloseButton?: boolean;
+}
+
+export default function ModalSheet({
+    visible,
+    onClose,
+    children,
+    animationType = 'slide',
+    bottomSheet = false,
+    showCloseButton = false,
+}: ModalSheetProps) {
+    return (
+        <Modal
+            visible={visible}
+            animationType={animationType}
+            transparent={true}
+            onRequestClose={onClose}
+        >
+            <TouchableOpacity
+                style={[styles.overlay, bottomSheet && styles.overlayBottom]}
+                activeOpacity={1}
+                onPress={onClose}
+            >
+                <TouchableOpacity
+                    activeOpacity={1}
+                    style={[styles.content, bottomSheet && styles.contentBottom]}
+                    onPress={() => {}}
+                >
+                    {bottomSheet && <View style={styles.bar} />}
+                    {showCloseButton && (
+                        <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
+                            <Ionicons name="close" size={28} color="white" />
+                        </TouchableOpacity>
+                    )}
+                    {children}
+                </TouchableOpacity>
+            </TouchableOpacity>
+        </Modal>
+    );
+}
+
+const styles = StyleSheet.create({
+    overlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.8)',
+        justifyContent: 'center',
+        padding: 25,
+    },
+    overlayBottom: {
+        justifyContent: 'flex-end',
+        padding: 0,
+        backgroundColor: 'rgba(0,0,0,0.7)',
+    },
+    content: {
+        backgroundColor: '#1A1B20',
+        borderRadius: 32,
+        padding: 30,
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.1)',
+    },
+    contentBottom: {
+        borderRadius: 0,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        padding: 24,
+        paddingBottom: 40,
+    },
+    bar: {
+        width: 40,
+        height: 5,
+        backgroundColor: 'rgba(255,255,255,0.1)',
+        borderRadius: 3,
+        alignSelf: 'center',
+        marginBottom: 20,
+    },
+    closeBtn: {
+        position: 'absolute',
+        top: 20,
+        right: 20,
+    },
+});

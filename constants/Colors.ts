@@ -1,19 +1,50 @@
-const tintColorLight = '#2f95dc';
-const tintColorDark = '#fff';
+const tintColorLight = "#E50914"; // Netflix red for a premium feel
+const tintColorDark = "#FF1F1F";
 
 export default {
   light: {
-    text: '#000',
-    background: '#fff',
+    text: "#FFFFFF",
+    background: "#0F1014",
+    white: "#FFFFFF",
     tint: tintColorLight,
-    tabIconDefault: '#ccc',
+    primary: "#e50914",
+    secondary: "#1A1C22",
+    accent: "#FF4D4D",
+    mediumDark: "#1F2128",
+    medium: "#8E8E93",
+    red: "#E50914",
+    teaParty: "#E50914",
+    green: "#4ADE80",
+    black: "#000000",
+    purple: "#8B5CF6",
+    blue: "#3B82F6",
+    gray: "#2C2C2E",
+    cardBg: "#1A1C22",
+    borderColor: "#2C2C2E",
+    tabIconDefault: "#8E8E93",
     tabIconSelected: tintColorLight,
   },
   dark: {
-    text: '#fff',
-    background: '#000',
+    text: "#FFFFFF",
+    background: "#0F1014",
+    white: "#FFFFFF",
     tint: tintColorDark,
-    tabIconDefault: '#ccc',
+    primary: "#E50914",
+    secondary: "#1A1C22",
+    accent: "#FF4D4D",
+    mediumDark: "#1F2128",
+    medium: "#8E8E93",
+    red: "#E50914",
+    teaParty: "#E50914",
+    green: "#4ADE80",
+    black: "#000000",
+    purple: "#8B5CF6",
+    blue: "#3B82F6",
+    gray: "#2C2C2E",
+    cardBg: "#1A1C22",
+    borderColor: "#2C2C2E",
+    tabIconDefault: "#8E8E93",
     tabIconSelected: tintColorDark,
   },
 };
+

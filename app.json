@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "front_NHT",
+    "name": "NHT",
     "slug": "front_NHT",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/Logo.png",
     "scheme": "frontnht",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -17,8 +17,10 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.ansimue.nht",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/Logo.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
@@ -34,6 +36,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "6f37665f-ed09-48d9-a7bf-257b64a2a604"
+      }
     }
   }
 }

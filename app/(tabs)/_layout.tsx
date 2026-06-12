@@ -1,59 +1,165 @@
-import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Ionicons } from "@expo/vector-icons";
+import { Tabs, useRouter } from "expo-router";
+import React from "react";
+import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+import { useColorScheme } from "@/components/useColorScheme";
+import Colors from "@/constants/Colors";
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
+const { width } = Dimensions.get("window");
+
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+  name: React.ComponentProps<typeof Ionicons>["name"];
+  focused: boolean;
   color: string;
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  return (
+    <View
+      style={[
+        styles.iconContainer,
+        props.focused && styles.iconContainerFocused,
+      ]}
+    >
+      <Ionicons
+        name={props.name}
+        size={props.focused ? 26 : 24}
+        color={props.color}
+      />
+      {props.focused && <View style={styles.dot} />}
+    </View>
+  );
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const theme = useColorScheme() ?? "light";
+  const router = useRouter();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
-      }}>
+        tabBarActiveTintColor: Colors[theme].primary,
+        tabBarInactiveTintColor: Colors[theme].medium,
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: Colors[theme].background,
+          borderBottomWidth: 0,
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+        headerTitleStyle: {
+          color: Colors[theme].text,
+          fontWeight: "900",
+          fontSize: 22,
+        },
+        headerTintColor: Colors[theme].text,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          backgroundColor: "#0F1014",
+          borderTopWidth: 1,
+          borderTopColor: "rgba(255, 255, 255, 0.05)",
+          elevation: 0,
+          height: 100,
+          paddingBottom: 20,
+          paddingTop: 10,
+        },
+        tabBarBackground: () => (
+          <View style={{ flex: 1, backgroundColor: "#0F1014" }} />
+        ),
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "NHT",
+          headerTitleStyle: {
+            fontWeight: "900",
+            fontSize: 28,
+            color: Colors[theme].primary,
+            letterSpacing: -1,
+          },
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon name="home-sharp" focused={focused} color={color} />
+          ),
           headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+            <Pressable
+              onPress={() => router.push("../modal")}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+                marginRight: 20,
+              })}
+            >
+              <Ionicons
+                name="notifications-outline"
+                size={22}
+                color={Colors[theme].text}
+              />
+            </Pressable>
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="library"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Bibliothèque",
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon name="library-sharp" focused={focused} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="write"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon name="add-circle-sharp" focused={focused} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="collection"
+        options={{
+          title: "Collection",
+          headerShown: false,
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon name="bookmark-sharp" focused={focused} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon name="person-sharp" focused={focused} color={color} />
+          ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  iconContainer: {
+    width: 44,
+    height: 44,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "transparent",
+  },
+  iconContainerFocused: {
+  },
+  dot: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: "#E50914",
+    position: "absolute",
+    bottom: 0,
+  },
+});
+
+

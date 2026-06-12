@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "906084791936",
+    "firebase_url": "https://ndao-hamaky-tantara-cc5a2-default-rtdb.firebaseio.com",
+    "project_id": "ndao-hamaky-tantara-cc5a2",
+    "storage_bucket": "ndao-hamaky-tantara-cc5a2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906084791936:android:f3484d9abdc8ffb7781865",
+        "android_client_info": {
+          "package_name": "com.ansimue.nht"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRl-cn5cr_CXzjE36LZh--ZbLvlABtLx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
