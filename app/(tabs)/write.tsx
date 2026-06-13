@@ -167,10 +167,10 @@ export default function WriteScreen() {
   if (user?.role?.toLowerCase() !== 'ecrivain') {
     return (
       <View style={styles.notWriterContainer}>
-        <StatusBar barStyle="light-content" />
+        <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
         <IconCircle iconName="create-outline" />
-        <Text style={styles.notWriterTitle}>Espace Écrivain</Text>
-        <Text style={styles.notWriterText}>
+        <Text style={[styles.notWriterTitle, { color: Colors[theme].text }]}>Espace Écrivain</Text>
+        <Text style={[styles.notWriterText, { color: Colors[theme].textMuted }]}>
           Prêt à partager votre talent ?{'\n'}
           Devenez écrivain pour commencer à publier vos propres histoires.
         </Text>
@@ -178,7 +178,7 @@ export default function WriteScreen() {
           style={[styles.becomeWriterBtn, { backgroundColor: Colors[theme].primary }]}
           onPress={() => setShowBecomeWriterModal(true)}
         >
-          <RNText style={styles.becomeWriterBtnText}>Devenir Écrivain</RNText>
+          <RNText style={[styles.becomeWriterBtnText, { color: 'white' }]}>Devenir Écrivain</RNText>
         </TouchableOpacity>
 
         {/* Modal de biographie */}
@@ -187,7 +187,7 @@ export default function WriteScreen() {
           onClose={() => setShowBecomeWriterModal(false)}
           animationType="fade"
         >
-          <RNText style={styles.modalTitle}>Parlez-nous de vous</RNText>
+          <RNText style={[styles.modalTitle, { color: Colors[theme].text }]}>Parlez-nous de vous</RNText>
           <AuthInput
             label="Votre biographie ou motivation"
             value={biographie}
@@ -208,21 +208,21 @@ export default function WriteScreen() {
 
   return (
     <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={[styles.container, { backgroundColor: Colors[theme].background }]}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
       <ScrollView
         contentContainerStyle={styles.formContent}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>Nouvelle Œuvre</Text>
-          <Text style={styles.headerSubtitle}>Laissez libre cours à votre imagination</Text>
+          <Text style={[styles.headerTitle, { color: Colors[theme].text }]}>Nouvelle Œuvre</Text>
+          <Text style={[styles.headerSubtitle, { color: Colors[theme].textMuted }]}>Laissez libre cours à votre imagination</Text>
         </View>
 
         <TouchableOpacity
-          style={[styles.imageUpload, !image && styles.imageUploadEmpty]}
+          style={[styles.imageUpload, !image && styles.imageUploadEmpty, { backgroundColor: Colors[theme].cardBgHover, borderColor: Colors[theme].borderColor }]}
           onPress={pickImage}
         >
           {image ? (
@@ -237,32 +237,32 @@ export default function WriteScreen() {
             </View>
           ) : (
             <View style={styles.uploadPlaceholder}>
-              <View style={styles.uploadIconCircle}>
-                <Ionicons name="camera-outline" size={30} color="rgba(255,255,255,0.4)" />
+              <View style={[styles.uploadIconCircle, { backgroundColor: Colors[theme].primaryAlpha5 }]}>
+                <Ionicons name="camera-outline" size={30} color={Colors[theme].primary} />
               </View>
-              <Text style={styles.uploadText}>
+              <Text style={[styles.uploadText, { color: Colors[theme].textMuted }]}>
                 Couverture de l'histoire
               </Text>
-              <Text style={styles.uploadSubtext}>Recommandé : 3:4 ratio</Text>
+              <Text style={[styles.uploadSubtext, { color: Colors[theme].textHint }]}>Recommandé : 3:4 ratio</Text>
             </View>
           )}
         </TouchableOpacity>
 
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Titre de l'histoire</Text>
+          <Text style={[styles.label, { color: Colors[theme].textMuted }]}>Titre de l'histoire</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, { color: Colors[theme].text, backgroundColor: Colors[theme].cardBgHover, borderColor: Colors[theme].borderColor }]}
             placeholder="Ex: Le mystère de l'Imerina"
-            placeholderTextColor="rgba(255,255,255,0.2)"
+            placeholderTextColor={Colors[theme].textHint}
             value={titre}
             onChangeText={setTitre}
           />
         </View>
 
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Genre / Catégorie</Text>
+          <Text style={[styles.label, { color: Colors[theme].textMuted }]}>Genre / Catégorie</Text>
           <TouchableOpacity
-            style={styles.pickerContainer}
+            style={[styles.pickerContainer, { backgroundColor: Colors[theme].cardBgHover, borderColor: Colors[theme].borderColor }]}
             onPress={() => setShowCategoryPicker(true)}
           >
             <RNText
@@ -279,11 +279,11 @@ export default function WriteScreen() {
         </View>
 
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Sous-titre (Optionnel)</Text>
+          <Text style={[styles.label, { color: Colors[theme].textMuted }]}>Sous-titre (Optionnel)</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, { color: Colors[theme].text, backgroundColor: Colors[theme].cardBgHover, borderColor: Colors[theme].borderColor }]}
             placeholder="Ex: Une épopée fantastique"
-            placeholderTextColor="rgba(255,255,255,0.2)"
+            placeholderTextColor={Colors[theme].textHint}
             value={sousTitre}
             onChangeText={setSousTitre}
           />
@@ -291,13 +291,13 @@ export default function WriteScreen() {
 
         <View style={styles.inputGroup}>
           <View style={styles.contentLabelContainer}>
-            <Text style={styles.label}>Texte du Chapitre 1</Text>
-            <Text style={styles.wordCount}>{wordCount} mots</Text>
+            <Text style={[styles.label, { color: Colors[theme].textMuted }]}>Texte du Chapitre 1</Text>
+            <Text style={[styles.wordCount, { color: Colors[theme].textHint }]}>{wordCount} mots</Text>
           </View>
           <TextInput
-            style={[styles.input, styles.contentInput]}
+            style={[styles.input, styles.contentInput, { color: Colors[theme].text, backgroundColor: Colors[theme].cardBgHover, borderColor: Colors[theme].borderColor }]}
             placeholder="Il était une fois..."
-            placeholderTextColor="rgba(255,255,255,0.2)"
+            placeholderTextColor={Colors[theme].textHint}
             multiline
             value={contenu}
             onChangeText={setContenu}
@@ -321,13 +321,14 @@ export default function WriteScreen() {
         animationType="slide"
         bottomSheet
       >
-        <RNText style={styles.modalTitle}>Choisir une catégorie</RNText>
+        <RNText style={[styles.modalTitle, { color: Colors[theme].text }]}>Choisir une catégorie</RNText>
         {CATEGORIES.map((category) => (
           <TouchableOpacity
             key={category.value}
             style={[
               styles.categoryOption,
-              selectedCategory === category.value && styles.categoryOptionSelected,
+              { backgroundColor: Colors[theme].cardBgHover },
+              selectedCategory === category.value && [styles.categoryOptionSelected, { backgroundColor: Colors[theme].primaryAlpha5, borderColor: Colors[theme].primaryAlpha5 }],
             ]}
             onPress={() => {
               setSelectedCategory(category.value);
@@ -337,6 +338,7 @@ export default function WriteScreen() {
             <RNText
               style={[
                 styles.categoryOptionText,
+                { color: Colors[theme].text },
                 selectedCategory === category.value && { color: Colors[theme].primary, fontWeight: '700' },
               ]}
             >
@@ -355,14 +357,12 @@ export default function WriteScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0F1014",
   },
   notWriterContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 40,
-    backgroundColor: '#0F1014',
   },
   notWriterTitle: {
     fontSize: 24,

@@ -1,3 +1,5 @@
+import { useColorScheme } from "@/components/useColorScheme";
+import Colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
@@ -48,8 +50,11 @@ export default function StoryHeader({
     }
   };
 
+  const theme = useColorScheme() ?? "light";
+  const bgColor = Colors[theme].background;
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: bgColor }]}>
       {/* Arrière-plan flou (simulé avec gradient et image) */}
       {coverImage && (
         <Image
@@ -60,15 +65,14 @@ export default function StoryHeader({
       )}
 
       <LinearGradient
-        colors={["rgba(15, 16, 20, 0.4)", "rgba(15, 16, 20, 0.9)", "#0F1014"]}
+        colors={["transparent", bgColor, bgColor]}
         style={styles.gradient}
       />
 
       <View style={styles.content}>
-        {/* Header Top */}
         <View style={styles.topBar}>
-          <TouchableOpacity style={styles.backButton} onPress={onBackPress}>
-            <Ionicons name="chevron-back" size={24} color="white" />
+          <TouchableOpacity style={[styles.backButton, { backgroundColor: Colors[theme].cardBgHover }]} onPress={onBackPress}>
+            <Ionicons name="chevron-back" size={24} color={Colors[theme].text} />
           </TouchableOpacity>
         </View>
 
@@ -78,37 +82,37 @@ export default function StoryHeader({
             {coverImage ? (
               <Image source={{ uri: coverImage }} style={styles.coverImage} />
             ) : (
-              <View style={styles.placeholderCover}>
-                <Ionicons name="book" size={40} color="rgba(255,255,255,0.2)" />
+              <View style={[styles.placeholderCover, { backgroundColor: Colors[theme].cardBg, borderColor: Colors[theme].borderColor }]}>
+                <Ionicons name="book" size={40} color={Colors[theme].icon} />
               </View>
             )}
           </View>
 
           <View style={styles.textInfo}>
             <View style={styles.tagRow}>
-              <View style={styles.categoryTag}>
-                <Text style={styles.categoryText}>
+              <View style={[styles.categoryTag, { backgroundColor: Colors[theme].primaryAlpha5 }]}>
+                <Text style={[styles.categoryText, { color: Colors[theme].primary }]}>
                   {getCategoryLabel(category)}
                 </Text>
               </View>
-              <Text style={styles.dot}>•</Text>
-              <Text style={styles.metaText}>{chaptersCount} épisodes</Text>
+              <Text style={[styles.dot, { color: Colors[theme].textHint }]}>•</Text>
+              <Text style={[styles.metaText, { color: Colors[theme].textMuted }]}>{chaptersCount} épisodes</Text>
             </View>
 
-            <Text style={styles.title} numberOfLines={3}>
+            <Text style={[styles.title, { color: Colors[theme].text }]} numberOfLines={3}>
               {title}
             </Text>
 
-            <Text style={styles.author}>Par {author}</Text>
+            <Text style={[styles.author, { color: Colors[theme].textMuted }]}>Par {author}</Text>
 
             <View style={styles.statsRow}>
               <View style={styles.statItem}>
                 <Ionicons name="star" size={14} color="#FFD700" />
-                <Text style={styles.statText}>{likes}</Text>
+                <Text style={[styles.statText, { color: Colors[theme].text }]}>{likes}</Text>
               </View>
               <View style={[styles.statItem, { marginLeft: 15 }]}>
-                <Ionicons name="eye" size={14} color="rgba(255,255,255,0.6)" />
-                <Text style={styles.statText}>{vues}</Text>
+                <Ionicons name="eye" size={14} color={Colors[theme].icon} />
+                <Text style={[styles.statText, { color: Colors[theme].text }]}>{vues}</Text>
               </View>
             </View>
           </View>
@@ -123,7 +127,6 @@ const styles = StyleSheet.create({
     height: 480,
     width: width,
     position: "relative",
-    backgroundColor: "#0F1014",
   },
   bgImage: {
     ...StyleSheet.absoluteFillObject,

@@ -141,26 +141,26 @@ export default function ProfileScreen() {
     const roleBadge = getRoleBadge();
 
     const MenuItem = ({ icon, title, color, onPress }: any) => (
-        <TouchableOpacity style={styles.menuItem} onPress={onPress}>
+        <TouchableOpacity style={[styles.menuItem, { backgroundColor: Colors[theme].cardBg, borderColor: Colors[theme].borderColor }]} onPress={onPress}>
             <View style={[styles.menuIconContainer, { backgroundColor: color + '15' }]}>
                 <Ionicons name={icon} size={20} color={color} />
             </View>
-            <Text style={styles.menuItemText}>{title}</Text>
-            <Ionicons name="chevron-forward" size={20} color="rgba(255,255,255,0.2)" />
+            <Text style={[styles.menuItemText, { color: Colors[theme].text }]}>{title}</Text>
+            <Ionicons name="chevron-forward" size={20} color={Colors[theme].icon} />
         </TouchableOpacity>
     );
 
     return (
         <View style={styles.container}>
-            <StatusBar barStyle="light-content" />
+            <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
             <ScrollView showsVerticalScrollIndicator={false}>
                 {/* Header Section */}
                 <View style={styles.header}>
                     <TouchableOpacity
-                        style={styles.settingsBtn}
+                        style={[styles.settingsBtn, { backgroundColor: Colors[theme].cardBgHover, borderColor: Colors[theme].borderColor }]}
                         onPress={() => setShowEditModal(true)}
                     >
-                        <Ionicons name="options-outline" size={22} color="white" />
+                        <Ionicons name="options-outline" size={22} color={Colors[theme].icon} />
                     </TouchableOpacity>
 
                     <View style={styles.profileInfo}>
@@ -178,54 +178,54 @@ export default function ProfileScreen() {
                                         </Text>
                                     </LinearGradient>
                                 )}
-                                <View style={[styles.editAvatarBadge, { backgroundColor: Colors[theme].primary }]}>
+                                <View style={[styles.editAvatarBadge, { backgroundColor: Colors[theme].primary, borderColor: Colors[theme].background }]}>
                                     <Ionicons name="camera" size={14} color="white" />
                                 </View>
                             </Animated.View>
                         </TouchableOpacity>
 
-                        <Text style={styles.userName}>{user?.nom || 'Utilisateur'}</Text>
+                        <Text style={[styles.userName, { color: Colors[theme].text }]}>{user?.nom || 'Utilisateur'}</Text>
                         <View style={[styles.roleBadge, { backgroundColor: roleBadge.color + '20' }]}>
                             <Text style={[styles.roleText, { color: roleBadge.color }]}>{roleBadge.label}</Text>
                         </View>
 
                         {user?.role?.toLowerCase() === 'ecrivain' && user?.bio && (
-                            <Text style={styles.userBio}>{user.bio}</Text>
+                            <Text style={[styles.userBio, { color: Colors[theme].textMuted }]}>{user.bio}</Text>
                         )}
                     </View>
                 </View>
 
                 {/* Stats Row */}
-                <View style={styles.statsContainer}>
+                <View style={[styles.statsContainer, { backgroundColor: Colors[theme].cardBg, borderColor: Colors[theme].borderColor }]}>
                     {user?.role?.toLowerCase() === 'ecrivain' && (
                         <>
                             <View style={styles.statItem}>
-                                <Text style={styles.statNumber}>{formatNumber(stats.storiesCount)}</Text>
-                                <Text style={styles.statLabel}>Histoires</Text>
+                                <Text style={[styles.statNumber, { color: Colors[theme].text }]}>{formatNumber(stats.storiesCount)}</Text>
+                                <Text style={[styles.statLabel, { color: Colors[theme].textMuted }]}>Histoires</Text>
                             </View>
-                            <View style={styles.statDivider} />
+                            <View style={[styles.statDivider, { backgroundColor: Colors[theme].borderFaint }]} />
                         </>
                     )}
 
                     <View style={styles.statItem}>
-                        <Text style={styles.statNumber}>{formatNumber(stats.totalReads)}</Text>
-                        <Text style={styles.statLabel}>Lectures</Text>
+                        <Text style={[styles.statNumber, { color: Colors[theme].text }]}>{formatNumber(stats.totalReads)}</Text>
+                        <Text style={[styles.statLabel, { color: Colors[theme].textMuted }]}>Lectures</Text>
                     </View>
 
                     {user?.role?.toLowerCase() === 'ecrivain' ? (
                         <>
-                            <View style={styles.statDivider} />
+                            <View style={[styles.statDivider, { backgroundColor: Colors[theme].borderFaint }]} />
                             <View style={styles.statItem}>
-                                <Text style={styles.statNumber}>{formatNumber(stats.followers)}</Text>
-                                <Text style={styles.statLabel}>Abonnés</Text>
+                                <Text style={[styles.statNumber, { color: Colors[theme].text }]}>{formatNumber(stats.followers)}</Text>
+                                <Text style={[styles.statLabel, { color: Colors[theme].textMuted }]}>Abonnés</Text>
                             </View>
                         </>
                     ) : (
                         <>
-                            <View style={styles.statDivider} />
+                            <View style={[styles.statDivider, { backgroundColor: Colors[theme].borderFaint }]} />
                             <View style={styles.statItem}>
-                                <Text style={styles.statNumber}>{formatNumber(stats.following)}</Text>
-                                <Text style={styles.statLabel}>Abonnements</Text>
+                                <Text style={[styles.statNumber, { color: Colors[theme].text }]}>{formatNumber(stats.following)}</Text>
+                                <Text style={[styles.statLabel, { color: Colors[theme].textMuted }]}>Abonnements</Text>
                             </View>
                         </>
                     )}
@@ -234,37 +234,36 @@ export default function ProfileScreen() {
                 <View style={styles.contentPadding}>
                     {/* Menu Sections */}
                     <View style={styles.menuSection}>
-                        <Text style={styles.sectionTitle}>Contenu </Text>
+                        <Text style={[styles.sectionTitle, { color: Colors[theme].textHint }]}>Contenu </Text>
                         <MenuItem icon="book-outline" title="Mes Histoires" color={Colors[theme].primary} onPress={() => router.push("/library")} />
                         <MenuItem icon="time-outline" title="Historique" color="#2196F3" onPress={() => router.push("/history")} />
                     </View>
 
                     <View style={styles.menuSection}>
-                        <Text style={styles.sectionTitle}>Préférences</Text>
+                        <Text style={[styles.sectionTitle, { color: Colors[theme].textHint }]}>Préférences</Text>
                         <MenuItem icon="notifications-outline" title="Notifications" color="#4CAF50" />
                         <MenuItem icon="color-palette-outline" title="Apparence" color="#9C27B0" onPress={() => setShowModal(true)} />
                         <MenuItem icon="help-circle-outline" title="Aide & Support" color="#607D8B" />
                     </View>
 
                     <TouchableOpacity
-                        style={styles.logoutButton}
+                        style={[styles.logoutButton, { backgroundColor: Colors[theme].primaryAlpha5, borderColor: Colors[theme].primaryAlpha5 }]}
                         onPress={() => setShowLogoutConfirm(true)}
                     >
                         <Ionicons name="log-out-outline" size={22} color={Colors[theme].primary} />
                         <Text style={[styles.logoutButtonText, { color: Colors[theme].primary }]}>Déconnexion</Text>
                     </TouchableOpacity>
 
-                    <Text style={styles.versionText}>NHT VERSION 1.0.0</Text>
+                    <Text style={[styles.versionText, { color: Colors[theme].textHint }]}>NHT VERSION 1.0.0</Text>
                 </View>
                 <View style={{ height: 100 }} />
             </ScrollView>
 
-            {/* Modal Edit Profil */}
             <ModalSheet visible={showEditModal} onClose={() => setShowEditModal(false)} animationType="slide">
                 <View style={styles.modalHeader}>
-                    <RNText style={styles.modalTitle}>Modifier le profil</RNText>
+                    <RNText style={[styles.modalTitle, { color: Colors[theme].text }]}>Modifier le profil</RNText>
                     <TouchableOpacity onPress={() => setShowEditModal(false)}>
-                        <Ionicons name="close" size={28} color="white" />
+                        <Ionicons name="close" size={28} color={Colors[theme].icon} />
                     </TouchableOpacity>
                 </View>
 
@@ -293,24 +292,24 @@ export default function ProfileScreen() {
             {/* Modal Page non disponible */}
             <ModalSheet visible={showModal} onClose={() => setShowModal(false)} animationType="slide">
                 <View style={styles.modalHeader}>
-                    <RNText style={styles.modalTitle}>Page non disponible</RNText>
+                    <RNText style={[styles.modalTitle, { color: Colors[theme].text }]}>Page non disponible</RNText>
                     <TouchableOpacity onPress={() => setShowModal(false)}>
-                        <Ionicons name="close" size={28} color="white" />
+                        <Ionicons name="close" size={28} color={Colors[theme].icon} />
                     </TouchableOpacity>
                 </View>
-                <RNText style={styles.menuFlot}> Cette page n'est pas encore Disponible </RNText>
+                <RNText style={[styles.menuFlot, { color: Colors[theme].text }]}> Cette page n'est pas encore Disponible </RNText>
             </ModalSheet>
 
             {/* Modal Logout */}
             <ModalSheet visible={showLogoutConfirm} onClose={() => setShowLogoutConfirm(false)} animationType="fade">
-                <RNText style={styles.confirmTitle}>Déconnexion</RNText>
-                <RNText style={styles.confirmText}>Voulez-vous vraiment quitter ?</RNText>
+                <RNText style={[styles.confirmTitle, { color: Colors[theme].text }]}>Déconnexion</RNText>
+                <RNText style={[styles.confirmText, { color: Colors[theme].textMuted }]}>Voulez-vous vraiment quitter ?</RNText>
                 <View style={styles.confirmButtons}>
-                    <TouchableOpacity style={styles.cancelButton} onPress={() => setShowLogoutConfirm(false)}>
-                        <RNText style={styles.cancelButtonText}>Annuler</RNText>
+                    <TouchableOpacity style={[styles.cancelButton, { backgroundColor: Colors[theme].cardBgHover }]} onPress={() => setShowLogoutConfirm(false)}>
+                        <RNText style={[styles.cancelButtonText, { color: Colors[theme].text }]}>Annuler</RNText>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.confirmButton, { backgroundColor: Colors[theme].primary }]} onPress={handleLogout}>
-                        <RNText style={styles.confirmButtonText}>Quitter</RNText>
+                        <RNText style={[styles.confirmButtonText, { color: 'white' }]}>Quitter</RNText>
                     </TouchableOpacity>
                 </View>
             </ModalSheet>
@@ -383,7 +382,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 3,
-        borderColor: '#0F1014',
     },
     userName: {
         fontSize: 26,
@@ -459,12 +457,10 @@ const styles = StyleSheet.create({
     menuItem: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: 'rgba(255,255,255,0.03)',
         padding: 16,
         borderRadius: 18,
         marginBottom: 10,
         borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.05)',
     },
     menuIconContainer: {
         width: 40,

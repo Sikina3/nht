@@ -1,6 +1,8 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { Dimensions, Image, StyleSheet, TouchableOpacity } from "react-native";
+import Colors from "@/constants/Colors";
+import { useColorScheme } from "../useColorScheme";
 import { Text, View } from "../Themed";
 
 const { width } = Dimensions.get("window");
@@ -26,13 +28,15 @@ export default function StoryCard({
   onPress,
   rating = "0",
 }: StoryCardProps) {
+  const theme = useColorScheme() ?? "light";
+
   return (
     <TouchableOpacity
       style={[styles.container, { width: cardWidth }]}
       onPress={onPress}
       activeOpacity={0.4}
     >
-      <View style={[styles.card, { height: cardHeight }]}>
+      <View style={[styles.card, { height: cardHeight, backgroundColor: Colors[theme].cardBg }]}>
         <Image
           source={{ uri: imageUrl }}
           style={[styles.image, { zIndex: 1 }]}
@@ -78,7 +82,6 @@ const styles = StyleSheet.create({
   card: {
     width: "100%",
     borderRadius: 16,
-    backgroundColor: "#1A1C22",
     overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 8 },

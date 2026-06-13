@@ -81,25 +81,25 @@ export default function RegisterScreen() {
 
     return (
         <View style={[styles.container, { backgroundColor: Colors[theme].background }]}>
-            <StatusBar barStyle="light-content" />
+            <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
 
             <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
                 <View style={styles.header}>
                     <Text style={[styles.logo, { color: Colors[theme].primary }]}>NHT</Text>
-                    <Text style={styles.title}>Nouveau compte</Text>
+                    <Text style={[styles.title, { color: Colors[theme].text }]}>Nouveau compte</Text>
 
-                    <View style={styles.roleToggle}>
+                    <View style={[styles.roleToggle, { backgroundColor: Colors[theme].cardBgHover, borderColor: Colors[theme].borderColor }]}>
                         <TouchableOpacity
                             style={[styles.roleButton, role === 'ecrivain' && { backgroundColor: Colors[theme].primary }]}
                             onPress={() => setRole('ecrivain')}
                         >
-                            <Text style={[styles.roleButtonText, role === 'ecrivain' && styles.roleButtonTextActive]}>Écrivain</Text>
+                            <Text style={[styles.roleButtonText, { color: Colors[theme].textMuted }, role === 'ecrivain' && styles.roleButtonTextActive]}>Écrivain</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={[styles.roleButton, role === 'lecteur' && { backgroundColor: Colors[theme].primary }]}
                             onPress={() => setRole('lecteur')}
                         >
-                            <Text style={[styles.roleButtonText, role === 'lecteur' && styles.roleButtonTextActive]}>Lecteur</Text>
+                            <Text style={[styles.roleButtonText, { color: Colors[theme].textMuted }, role === 'lecteur' && styles.roleButtonTextActive]}>Lecteur</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -147,7 +147,7 @@ export default function RegisterScreen() {
                     />
 
                     <View style={styles.footer}>
-                        <Text style={styles.footerText}>Déjà inscrit ? </Text>
+                        <Text style={[styles.footerText, { color: Colors[theme].textMuted }]}>Déjà inscrit ? </Text>
                         <TouchableOpacity onPress={() => router.push('/login')}>
                             <Text style={[styles.signupText, { color: Colors[theme].primary }]}>Se connecter</Text>
                         </TouchableOpacity>
@@ -182,17 +182,14 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 22,
         fontWeight: '800',
-        color: 'white',
         marginBottom: 25,
     },
     roleToggle: {
         flexDirection: 'row',
-        backgroundColor: 'rgba(255,255,255,0.05)',
         borderRadius: 14,
         padding: 4,
         width: '100%',
         borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.1)',
     },
     roleButton: {
         flex: 1,
@@ -201,7 +198,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     roleButtonText: {
-        color: 'rgba(255,255,255,0.5)',
         fontWeight: '700',
         fontSize: 14,
     },
@@ -221,7 +217,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     footerText: {
-        color: 'rgba(255,255,255,0.5)',
         fontSize: 14,
     },
     signupText: {

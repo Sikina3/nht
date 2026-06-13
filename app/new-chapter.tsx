@@ -66,17 +66,17 @@ export default function NewChapterScreen() {
 
     return (
         <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={[styles.container, { backgroundColor: Colors[theme].background }]}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         >
-            <StatusBar barStyle="light-content" />
+            <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
 
             {/* Header */}
             <View style={styles.header}>
                 <BackButton onPress={() => router.back()} />
                 <View style={styles.headerTitleContainer}>
-                    <Text style={styles.headerTitle}>Nouveau Chapitre</Text>
-                    <Text style={styles.storyName} numberOfLines={1}>{storyTitle}</Text>
+                    <Text style={[styles.headerTitle, { color: Colors[theme].text }]}>Nouveau Chapitre</Text>
+                    <Text style={[styles.storyName, { color: Colors[theme].textMuted }]} numberOfLines={1}>{storyTitle}</Text>
                 </View>
             </View>
 
@@ -85,17 +85,17 @@ export default function NewChapterScreen() {
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
             >
-                <View style={styles.chapterCircle}>
-                    <Text style={styles.chapterCircleText}>{chapterNumber}</Text>
-                    <Text style={styles.chapterCircleLabel}>NUMÉRO</Text>
+                <View style={[styles.chapterCircle, { backgroundColor: Colors[theme].primaryAlpha5, borderColor: Colors[theme].primaryAlpha5 }]}>
+                    <Text style={[styles.chapterCircleText, { color: Colors[theme].text }]}>{chapterNumber}</Text>
+                    <Text style={[styles.chapterCircleLabel, { color: Colors[theme].textHint }]}>NUMÉRO</Text>
                 </View>
 
                 <View style={styles.inputGroup}>
-                    <Text style={styles.label}>Titre du chapitre</Text>
+                    <Text style={[styles.label, { color: Colors[theme].textMuted }]}>Titre du chapitre</Text>
                     <TextInput
-                        style={styles.input}
+                        style={[styles.input, { color: Colors[theme].text, backgroundColor: Colors[theme].cardBgHover, borderColor: Colors[theme].borderColor }]}
                         placeholder="Ex: La rencontre inattendue"
-                        placeholderTextColor="rgba(255,255,255,0.2)"
+                        placeholderTextColor={Colors[theme].textHint}
                         value={sousTitre}
                         onChangeText={setSousTitre}
                     />
@@ -103,13 +103,13 @@ export default function NewChapterScreen() {
 
                 <View style={styles.inputGroup}>
                     <View style={styles.contentHeader}>
-                        <Text style={styles.label}>Contenu du chapitre</Text>
-                        <Text style={styles.wordCount}>{wordCount} mots</Text>
+                        <Text style={[styles.label, { color: Colors[theme].textMuted }]}>Contenu du chapitre</Text>
+                        <Text style={[styles.wordCount, { color: Colors[theme].textHint }]}>{wordCount} mots</Text>
                     </View>
                     <TextInput
-                        style={styles.contentInput}
+                        style={[styles.contentInput, { color: Colors[theme].text, backgroundColor: Colors[theme].cardBg, borderColor: Colors[theme].borderColor }]}
                         placeholder="Il était une fois..."
-                        placeholderTextColor="rgba(255,255,255,0.2)"
+                        placeholderTextColor={Colors[theme].textHint}
                         value={contenu}
                         onChangeText={setContenu}
                         multiline
@@ -120,7 +120,7 @@ export default function NewChapterScreen() {
                 <View style={{ height: 150 }} />
             </ScrollView>
 
-            <View style={styles.footer}>
+            <View style={[styles.footer, { borderTopColor: Colors[theme].borderColor }]}>
                 <GradientButton
                     title="Publier le chapitre"
                     onPress={handlePublish}
@@ -135,7 +135,6 @@ export default function NewChapterScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#0F1014',
     },
     header: {
         flexDirection: 'row',
@@ -238,7 +237,6 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        backgroundColor: '#0F1014',
         paddingHorizontal: 20,
         paddingBottom: 40,
         paddingTop: 20,

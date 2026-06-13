@@ -1,5 +1,7 @@
 import { Text, View } from "@/components/Themed";
 import BookFlip from "@/components/reader/BookFlip";
+import { useColorScheme } from "@/components/useColorScheme";
+import Colors from "@/constants/Colors";
 import api from "@/services/api";
 import { getDownload, saveReadingProgress } from "@/services/downloadService";
 import { Ionicons } from "@expo/vector-icons";
@@ -30,6 +32,7 @@ interface Chapter {
 }
 
 export default function ReadChapterScreen() {
+  const theme = useColorScheme() ?? "light";
   const router = useRouter();
   const params = useLocalSearchParams();
   const chapterId = params.chapterId as string;
@@ -341,25 +344,25 @@ export default function ReadChapterScreen() {
   }
 
   return (
-    <GestureHandlerRootView style={styles.container}>
-      <View style={styles.container}>
+    <GestureHandlerRootView style={[styles.container, { backgroundColor: Colors[theme].background }]}>
+      <View style={[styles.container, { backgroundColor: Colors[theme].background }]}>
         {/* Header */}
         {showControls && (
-          <Animated.View style={[styles.header, { opacity: fadeAnim }]}>
+          <Animated.View style={[styles.header, { opacity: fadeAnim, backgroundColor: Colors[theme].cardBg }]}>
             <TouchableOpacity
               style={styles.backButton}
               onPress={() => router.back()}
             >
-              <Ionicons name="chevron-back" size={28} color="white" />
+              <Ionicons name="chevron-back" size={28} color={Colors[theme].text} />
             </TouchableOpacity>
             <View style={styles.headerInfo}>
-              <Text style={styles.headerTitle} numberOfLines={1}>
+              <Text style={[styles.headerTitle, { color: Colors[theme].text }]} numberOfLines={1}>
                 {storyTitle}
                 {isOffline && (
                   <Text style={styles.offlineBadge}> 📥</Text>
                 )}
               </Text>
-              <Text style={styles.headerSubtitle}>
+              <Text style={[styles.headerSubtitle, { color: Colors[theme].textMuted }]}>
                 Chapitre {chapterNumber}
                 {chapter?.sousTitre ? ` - ${chapter.sousTitre}` : ""}
               </Text>
@@ -368,7 +371,7 @@ export default function ReadChapterScreen() {
               style={styles.menuButton}
               onPress={openComments}
             >
-              <Ionicons name="chatbubbles-outline" size={24} color="white" />
+              <Ionicons name="chatbubbles-outline" size={24} color={Colors[theme].text} />
             </TouchableOpacity>
           </Animated.View>
         )}
@@ -391,15 +394,15 @@ export default function ReadChapterScreen() {
           <Animated.View
             style={[styles.progressContainer, { opacity: fadeAnim }]}
           >
-            <View style={styles.progressBar}>
+            <View style={[styles.progressBar, { backgroundColor: Colors[theme].borderFaint }]}>
               <View
                 style={[
                   styles.progressFill,
-                  { width: `${((currentPage + 1) / pages.length) * 100}%` },
+                  { width: `${((currentPage + 1) / pages.length) * 100}%`, backgroundColor: Colors[theme].primary },
                 ]}
               />
             </View>
-            <Text style={styles.progressText}>
+            <Text style={[styles.progressText, { color: Colors[theme].text }]}>
               Page {currentPage + 1} sur {pages.length}
             </Text>
           </Animated.View>
@@ -416,54 +419,54 @@ export default function ReadChapterScreen() {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.modalOverlay}
           >
-            <View style={styles.modalContent}>
+            <View style={[styles.modalContent, { backgroundColor: Colors[theme].cardBg, borderColor: Colors[theme].borderColor }]}>
               <View style={styles.modalHeaderRow}>
-                <Text style={styles.modalTitle}>Commentaires & Avis</Text>
+                <Text style={[styles.modalTitle, { color: Colors[theme].text }]}>Commentaires & Avis</Text>
                 <TouchableOpacity onPress={() => setShowComments(false)}>
-                  <Ionicons name="close" size={24} color="white" />
+                  <Ionicons name="close" size={24} color={Colors[theme].text} />
                 </TouchableOpacity>
               </View>
 
-              <View style={styles.likeRow}>
-                <Text style={styles.likeText}>Avez-vous aimé cette histoire ?</Text>
+              <View style={[styles.likeRow, { backgroundColor: Colors[theme].cardBgHover }]}>
+                <Text style={[styles.likeText, { color: Colors[theme].text }]}>Avez-vous aimé cette histoire ?</Text>
                 <TouchableOpacity onPress={handleLikeStory} activeOpacity={0.7}>
                   <Ionicons
                     name={hasLiked ? "star" : "star-outline"}
                     size={32}
-                    color={hasLiked ? "#FFD700" : "rgba(255,255,255,0.4)"}
+                    color={hasLiked ? "#FFD700" : Colors[theme].icon}
                   />
                 </TouchableOpacity>
               </View>
 
               <ScrollView style={styles.commentsList} showsVerticalScrollIndicator={false}>
                 {isOffline ? (
-                  <Text style={styles.offlineCommentText}>Inaccessible en mode hors-ligne</Text>
+                  <Text style={[styles.offlineCommentText, { color: Colors[theme].textHint }]}>Inaccessible en mode hors-ligne</Text>
                 ) : comments.length > 0 ? (
                   comments.map((comment, index) => (
-                    <View key={index} style={styles.commentItem}>
+                    <View key={index} style={[styles.commentItem, { backgroundColor: Colors[theme].cardBgHover }]}>
                       <View style={styles.commentHeader}>
-                        <Ionicons name="person-circle-outline" size={20} color="#8E97FD" />
-                        <Text style={styles.commentAuthor}>{comment.utilisateur?.nom || "Utilisateur"}</Text>
+                        <Ionicons name="person-circle-outline" size={20} color={Colors[theme].primary} />
+                        <Text style={[styles.commentAuthor, { color: Colors[theme].primary }]}>{comment.utilisateur?.nom || "Utilisateur"}</Text>
                       </View>
-                      <Text style={styles.commentText}>{comment.contenu}</Text>
+                      <Text style={[styles.commentText, { color: Colors[theme].textMuted }]}>{comment.contenu}</Text>
                     </View>
                   ))
                 ) : (
-                  <Text style={styles.offlineCommentText}>Aucun commentaire pour l'instant. Soyez le premier !</Text>
+                  <Text style={[styles.offlineCommentText, { color: Colors[theme].textHint }]}>Aucun commentaire pour l'instant. Soyez le premier !</Text>
                 )}
               </ScrollView>
 
               {!isOffline && user && (
                 <View style={styles.commentInputRow}>
                   <TextInput
-                    style={styles.commentInput}
+                    style={[styles.commentInput, { backgroundColor: Colors[theme].cardBgHover, color: Colors[theme].text }]}
                     placeholder="Laisser un commentaire..."
-                    placeholderTextColor="rgba(255,255,255,0.4)"
+                    placeholderTextColor={Colors[theme].textHint}
                     value={newComment}
                     onChangeText={setNewComment}
                     multiline
                   />
-                  <TouchableOpacity onPress={handlePostComment} style={styles.commentPostBtn}>
+                  <TouchableOpacity onPress={handlePostComment} style={[styles.commentPostBtn, { backgroundColor: Colors[theme].primary }]}>
                     <Ionicons name="send" size={20} color="white" />
                   </TouchableOpacity>
                 </View>

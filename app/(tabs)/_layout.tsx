@@ -58,16 +58,16 @@ export default function TabLayout() {
           bottom: 0,
           left: 0,
           right: 0,
-          backgroundColor: "#0F1014",
+          backgroundColor: Colors[theme].background,
           borderTopWidth: 1,
-          borderTopColor: "rgba(255, 255, 255, 0.05)",
+          borderTopColor: Colors[theme].borderFaint,
           elevation: 0,
           height: 100,
           paddingBottom: 20,
           paddingTop: 10,
         },
         tabBarBackground: () => (
-          <View style={{ flex: 1, backgroundColor: "#0F1014" }} />
+          <View style={{ flex: 1, backgroundColor: Colors[theme].background }} />
         ),
       }}
     >

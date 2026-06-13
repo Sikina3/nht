@@ -1,3 +1,5 @@
+import { useColorScheme } from '@/components/useColorScheme';
+import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
@@ -8,6 +10,7 @@ import {
     TouchableOpacity,
     View,
     ViewStyle,
+    TextStyle,
 } from 'react-native';
 
 interface AuthInputProps {
@@ -22,7 +25,7 @@ interface AuthInputProps {
     maxLength?: number;
     autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
     style?: ViewStyle;
-    inputStyle?: ViewStyle;
+    inputStyle?: TextStyle;
 }
 
 export default function AuthInput({
@@ -39,17 +42,22 @@ export default function AuthInput({
     style,
     inputStyle,
 }: AuthInputProps) {
+    const theme = useColorScheme() ?? "light";
     const [showText, setShowText] = useState(false);
     const isSecure = secureTextEntry && !showText;
 
     return (
         <View style={[styles.wrapper, style]}>
-            <Text style={styles.label}>{label}</Text>
-            <View style={[styles.container, showPasswordToggle && styles.passwordContainer]}>
+            <Text style={[styles.label, { color: Colors[theme].textMuted }]}>{label}</Text>
+            <View style={[
+                styles.container,
+                showPasswordToggle && styles.passwordContainer,
+                { backgroundColor: Colors[theme].cardBgHover, borderColor: Colors[theme].borderColor }
+            ]}>
                 <TextInput
-                    style={[styles.input, showPasswordToggle && styles.passwordInput, multiline && styles.multilineInput, inputStyle]}
+                    style={[styles.input, showPasswordToggle && styles.passwordInput, multiline && styles.multilineInput, { color: Colors[theme].text }, inputStyle]}
                     placeholder={placeholder}
-                    placeholderTextColor="rgba(255,255,255,0.3)"
+                    placeholderTextColor={Colors[theme].textFaint}
                     keyboardType={keyboardType}
                     value={value}
                     onChangeText={onChangeText}
@@ -64,7 +72,7 @@ export default function AuthInput({
                         <Ionicons
                             name={showText ? 'eye-off' : 'eye'}
                             size={24}
-                            color="rgba(255,255,255,0.5)"
+                            color={Colors[theme].icon}
                         />
                     </TouchableOpacity>
                 )}
@@ -78,7 +86,6 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     label: {
-        color: 'rgba(255,255,255,0.6)',
         fontSize: 12,
         fontWeight: 'bold',
         marginBottom: 8,
@@ -86,10 +93,8 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
     },
     container: {
-        backgroundColor: 'rgba(255,255,255,0.05)',
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.1)',
     },
     passwordContainer: {
         flexDirection: 'row',
@@ -98,7 +103,6 @@ const styles = StyleSheet.create({
     input: {
         paddingVertical: 15,
         paddingHorizontal: 15,
-        color: 'white',
         fontSize: 16,
     },
     passwordInput: {

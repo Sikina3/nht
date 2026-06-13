@@ -111,28 +111,28 @@ export default function StoryChaptersScreen() {
         return (
             <View style={styles.loadingContainer}>
                 <ActivityIndicator size="large" color={Colors[theme].primary} />
-                <Text style={styles.loadingText}>Vos chapitres arrivent...</Text>
+                <Text style={[styles.loadingText, { color: Colors[theme].textMuted }]}>Vos chapitres arrivent...</Text>
             </View>
         );
     }
 
     return (
         <View style={styles.container}>
-            <StatusBar barStyle="light-content" />
+            <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
 
             {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity
-                    style={styles.backButton}
+                    style={[styles.backButton, { backgroundColor: Colors[theme].cardBgHover }]}
                     onPress={() => router.back()}
                 >
-                    <Ionicons name="arrow-back" size={24} color="white" />
+                    <Ionicons name="arrow-back" size={24} color={Colors[theme].text} />
                 </TouchableOpacity>
                 <View style={styles.headerInfo}>
-                    <Text style={styles.storyTitle} numberOfLines={1}>
+                    <Text style={[styles.storyTitle, { color: Colors[theme].text }]} numberOfLines={1}>
                         {storyTitle}
                     </Text>
-                    <Text style={styles.chapterCount}>
+                    <Text style={[styles.chapterCount, { color: Colors[theme].textMuted }]}>
                         {chapters.length} chapitre{chapters.length > 1 ? 's' : ''} publié{chapters.length > 1 ? 's' : ''}
                     </Text>
                 </View>
@@ -154,46 +154,46 @@ export default function StoryChaptersScreen() {
                     chapters.map((chapter) => (
                         <TouchableOpacity
                             key={chapter.id}
-                            style={styles.chapterCard}
+                            style={[styles.chapterCard, { backgroundColor: Colors[theme].cardBg, borderColor: Colors[theme].borderColor }]}
                             onPress={() => handleViewChapter(chapter)}
                             activeOpacity={0.8}
                         >
-                            <View style={styles.chapterNumberBadge}>
-                                <Text style={styles.chapterNumberText}>#{chapter.numeroChapitre}</Text>
+                            <View style={[styles.chapterNumberBadge, { backgroundColor: Colors[theme].cardBgHover }]}>
+                                <Text style={[styles.chapterNumberText, { color: Colors[theme].text }]}>#{chapter.numeroChapitre}</Text>
                             </View>
 
                             <View style={styles.chapterMainInfo}>
-                                <Text style={styles.chapterSousTitre} numberOfLines={1}>
+                                <Text style={[styles.chapterSousTitre, { color: Colors[theme].text }]} numberOfLines={1}>
                                     {chapter.sousTitre || 'Sans titre'}
                                 </Text>
                                 <View style={styles.chapterMeta}>
                                     <View style={styles.metaItem}>
-                                        <Ionicons name="document-text-outline" size={14} color="rgba(255,255,255,0.4)" />
-                                        <Text style={styles.metaText}>
+                                        <Ionicons name="document-text-outline" size={14} color={Colors[theme].icon} />
+                                        <Text style={[styles.metaText, { color: Colors[theme].textMuted }]}>
                                             {countWords(chapter.contenu)} mots
                                         </Text>
                                     </View>
                                     <View style={styles.metaItem}>
-                                        <Ionicons name="calendar-outline" size={14} color="rgba(255,255,255,0.4)" />
-                                        <Text style={styles.metaText}>
+                                        <Ionicons name="calendar-outline" size={14} color={Colors[theme].icon} />
+                                        <Text style={[styles.metaText, { color: Colors[theme].textMuted }]}>
                                             {formatDate(chapter.dateCreation) || 'Récemment'}
                                         </Text>
                                     </View>
                                 </View>
                             </View>
 
-                            <TouchableOpacity style={styles.editBtn} onPress={() => handleViewChapter(chapter)}>
-                                <Ionicons name="eye-outline" size={20} color="white" />
+                            <TouchableOpacity style={[styles.editBtn, { backgroundColor: Colors[theme].cardBgHover }]} onPress={() => handleViewChapter(chapter)}>
+                                <Ionicons name="eye-outline" size={20} color={Colors[theme].icon} />
                             </TouchableOpacity>
                         </TouchableOpacity>
                     ))
                 ) : (
                     <View style={styles.emptyContainer}>
-                        <View style={styles.emptyIconCircle}>
-                            <Ionicons name="book-outline" size={60} color="rgba(255,255,255,0.05)" />
+                        <View style={[styles.emptyIconCircle, { backgroundColor: Colors[theme].cardBg }]}>
+                            <Ionicons name="book-outline" size={60} color={Colors[theme].icon} />
                         </View>
-                        <Text style={styles.emptyTitle}>Page blanche...</Text>
-                        <Text style={styles.emptyText}>
+                        <Text style={[styles.emptyTitle, { color: Colors[theme].text }]}>Page blanche...</Text>
+                        <Text style={[styles.emptyText, { color: Colors[theme].textHint }]}>
                             Votre histoire attend son premier chapitre.{'\n'}
                             Lancez-vous !
                         </Text>
@@ -204,7 +204,7 @@ export default function StoryChaptersScreen() {
             </ScrollView>
 
             {/* Bouton Fixe en bas */}
-            <View style={styles.footer}>
+            <View style={[styles.footer, { borderTopColor: Colors[theme].borderColor }]}>
                 <TouchableOpacity
                     style={styles.addChapterButton}
                     onPress={handleAddChapter}
@@ -230,13 +230,11 @@ export default function StoryChaptersScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#0F1014',
     },
     loadingContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#0F1014',
     },
     loadingText: {
         marginTop: 15,
@@ -367,7 +365,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingBottom: 40,
         paddingTop: 20,
-        backgroundColor: '#0F1014',
         borderTopWidth: 1,
         borderTopColor: 'rgba(255,255,255,0.05)',
     },

@@ -69,13 +69,13 @@ export default function LoginScreen() {
 
     return (
         <View style={[styles.container, { backgroundColor: Colors[theme].background }]}>
-            <StatusBar barStyle="light-content" />
+            <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
 
             {/* Top Section / Branding */}
             <View style={styles.header}>
                 <Text style={[styles.logo, { color: Colors[theme].primary }]}>NHT</Text>
-                <Text style={styles.title}>Content de vous revoir</Text>
-                <Text style={styles.subtitle}>Connectez-vous pour continuer votre lecture</Text>
+                <Text style={[styles.title, { color: Colors[theme].text }]}>Content de vous revoir</Text>
+                <Text style={[styles.subtitle, { color: Colors[theme].textMuted }]}>Connectez-vous pour continuer votre lecture</Text>
             </View>
 
             {/* Form Section */}
@@ -105,7 +105,7 @@ export default function LoginScreen() {
                 />
 
                 <View style={styles.footer}>
-                    <Text style={styles.footerText}>Nouveau sur NHT ? </Text>
+                    <Text style={[styles.footerText, { color: Colors[theme].textMuted }]}>Nouveau sur NHT ? </Text>
                     <TouchableOpacity onPress={() => router.push('/register')}>
                         <Text style={[styles.signupText, { color: Colors[theme].primary }]}>S'inscrire</Text>
                     </TouchableOpacity>
@@ -134,12 +134,10 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: '800',
-        color: 'white',
         marginBottom: 10,
     },
     subtitle: {
         fontSize: 14,
-        color: 'rgba(255,255,255,0.5)',
         textAlign: 'center',
     },
     form: {
@@ -154,7 +152,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     footerText: {
-        color: 'rgba(255,255,255,0.5)',
         fontSize: 14,
     },
     signupText: {

@@ -328,7 +328,7 @@ export default function StoriesPage() {
     return (
       <>
         <Stack.Screen options={{ headerShown: false }} />
-        <StatusBar barStyle="light-content" backgroundColor={bgColor} />
+        <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} backgroundColor={bgColor} />
         <View style={[styles.centered, { backgroundColor: bgColor }]}>
           <ActivityIndicator size="large" color={C.primary} />
           <Text style={[styles.loadingText, { color: C.medium }]}>
@@ -341,7 +341,7 @@ export default function StoriesPage() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: bgColor }} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor={bgColor} />
+      <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} backgroundColor={bgColor} />
       <Stack.Screen options={{ headerShown: false }} />
 
       <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 14 }}>
@@ -390,7 +390,7 @@ export default function StoriesPage() {
           )}
           ListEmptyComponent={() => (
             <View style={styles.emptyContainer}>
-              <Ionicons name="search-outline" size={52} color="#444" />
+              <Ionicons name="search-outline" size={52} color={Colors[theme].icon} />
               <Text style={[styles.emptyTitle, { color: C.text }]}>
                 Aucune histoire trouvée
               </Text>

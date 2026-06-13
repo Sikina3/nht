@@ -56,7 +56,7 @@ function ReadingCard({
         <TouchableOpacity style={[styles.readingCard, { backgroundColor: C.secondary, borderColor: C.borderColor }]} onPress={onPress} activeOpacity={0.75}>
             <Image source={{ uri: imageUri }} style={styles.readingImage} />
             <View style={styles.readingInfo}>
-                <Text style={[styles.readingTitle]} numberOfLines={1}>
+                <Text style={[styles.readingTitle, { color: C.text }]} numberOfLines={1}>
                     {item.storyTitle}
                 </Text>
                 <Text style={[styles.readingMeta, { color: C.medium }]}>
@@ -68,7 +68,7 @@ function ReadingCard({
                 </Text>
 
                 {/* Barre de progression */}
-                <View style={styles.progressBg}>
+                <View style={[styles.progressBg, { backgroundColor: C.borderFaint }]}>
                     <View
                         style={[
                             styles.progressFill,
@@ -120,7 +120,7 @@ function DownloadCard({
         >
             <Image source={{ uri: imageUri }} style={styles.downloadImage} />
             <View style={styles.downloadInfo}>
-                <Text style={styles.downloadTitle} numberOfLines={2}>
+                <Text style={[styles.downloadTitle, { color: C.text }]} numberOfLines={2}>
                     {item.titre}
                 </Text>
                 <Text style={[styles.downloadMeta, { color: C.medium }]}>
@@ -317,7 +317,7 @@ export default function LibraryScreen() {
             <View style={[styles.userHeader, { backgroundColor: C.background }]}>
                 <View>
                     <Text style={[styles.greet, { color: C.medium }]}>Bonjour,</Text>
-                    <Text style={[styles.userName]}>{user?.nom ?? "Lecteur"}</Text>
+                    <Text style={[styles.userName, { color: C.text }]}>{user?.nom ?? "Lecteur"}</Text>
                 </View>
                 <View style={[styles.coinsBox, { backgroundColor: C.secondary }]}>
                     <Ionicons name="logo-bitcoin" size={16} color="#FFD700" />
@@ -470,7 +470,7 @@ const styles = StyleSheet.create({
         paddingBottom: 16,
     },
     greet: { fontSize: 13, fontWeight: "500" },
-    userName: { fontSize: 20, fontWeight: "800", color: "#fff", marginTop: 2 },
+    userName: { fontSize: 20, fontWeight: "800", marginTop: 2 },
     coinsBox: {
         flexDirection: "row",
         alignItems: "center",
@@ -538,14 +538,12 @@ const styles = StyleSheet.create({
     readingTitle: {
         fontSize: 15,
         fontWeight: "700",
-        color: "#fff",
         marginBottom: 2,
     },
     readingMeta: { fontSize: 12, marginBottom: 4 },
     readingChapter: { fontSize: 12, marginBottom: 8 },
     progressBg: {
         height: 4,
-        backgroundColor: "rgba(255,255,255,0.1)",
         borderRadius: 2,
         overflow: "hidden",
         marginBottom: 4,
@@ -580,7 +578,6 @@ const styles = StyleSheet.create({
     downloadTitle: {
         fontSize: 15,
         fontWeight: "700",
-        color: "#fff",
         marginBottom: 3,
     },
     downloadMeta: { fontSize: 12, marginBottom: 8 },

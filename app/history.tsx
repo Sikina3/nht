@@ -65,7 +65,7 @@ export default function HistoryScreen() {
 
     const renderItem = ({ item }: { item: HistoryItem }) => (
         <TouchableOpacity
-            style={styles.itemContainer}
+            style={[styles.itemContainer, { backgroundColor: C.cardBg }]}
             onPress={() => router.push({ pathname: '/story-details', params: { storyId: item.histoire.id.toString() } })}
         >
             <Image
@@ -73,25 +73,25 @@ export default function HistoryScreen() {
                 style={styles.coverImage}
             />
             <View style={styles.itemInfo}>
-                <Text style={styles.itemTitle} numberOfLines={1}>{item.histoire.titre}</Text>
-                <Text style={styles.itemAuthor}>{item.histoire.auteur?.nom || 'Auteur inconnu'}</Text>
+                <Text style={[styles.itemTitle, { color: C.text }]} numberOfLines={1}>{item.histoire.titre}</Text>
+                <Text style={[styles.itemAuthor, { color: C.textMuted }]}>{item.histoire.auteur?.nom || 'Auteur inconnu'}</Text>
                 <View style={styles.dateRow}>
-                    <Ionicons name="time-outline" size={12} color="rgba(255,255,255,0.5)" />
-                    <Text style={styles.itemDate}>{formatDate(item.dateConsultation)}</Text>
+                    <Ionicons name="time-outline" size={12} color={C.icon} />
+                    <Text style={[styles.itemDate, { color: C.textHint }]}>{formatDate(item.dateConsultation)}</Text>
                 </View>
             </View>
-            <Ionicons name="chevron-forward" size={20} color="rgba(255,255,255,0.2)" />
+            <Ionicons name="chevron-forward" size={20} color={C.icon} />
         </TouchableOpacity>
     );
 
     return (
-        <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="light-content" />
-            <View style={styles.header}>
+        <SafeAreaView style={[styles.container, { backgroundColor: C.background }]}>
+            <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
+            <View style={[styles.header, { borderBottomColor: C.borderColor }]}>
                 <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-                    <Ionicons name="chevron-back" size={28} color="white" />
+                    <Ionicons name="chevron-back" size={28} color={C.text} />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>Historique de la semaine</Text>
+                <Text style={[styles.headerTitle, { color: C.text }]}>Historique de la semaine</Text>
                 <View style={{ width: 40 }} />
             </View>
 
@@ -101,8 +101,8 @@ export default function HistoryScreen() {
                 </View>
             ) : history.length === 0 ? (
                 <View style={styles.centerContainer}>
-                    <Ionicons name="time-outline" size={64} color="rgba(255,255,255,0.1)" />
-                    <Text style={styles.emptyText}>Aucune lecture cette semaine</Text>
+                    <Ionicons name="time-outline" size={64} color={C.icon} />
+                    <Text style={[styles.emptyText, { color: C.textHint }]}>Aucune lecture cette semaine</Text>
                 </View>
             ) : (
                 <FlatList

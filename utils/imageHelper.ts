@@ -8,7 +8,7 @@
  *   - Nom de fichier seul : "image.jpg" ou "1710000000000-image.jpg"
  */
 
-export const BASE_URL = "https://backend-nht.onrender.com";
+export const BASE_URL = "https://nht.blocsland.com";
 export const PLACEHOLDER_IMAGE = "https://picsum.photos/seed/nht/400/600";
 
 export function getImageUrl(imagePath: string | null | undefined): string {

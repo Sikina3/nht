@@ -1,3 +1,5 @@
+import { useColorScheme } from '@/components/useColorScheme';
+import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import React, { ReactNode } from 'react';
 import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -20,6 +22,8 @@ export default function ModalSheet({
     bottomSheet = false,
     showCloseButton = false,
 }: ModalSheetProps) {
+    const theme = useColorScheme() ?? 'light';
+
     return (
         <Modal
             visible={visible}
@@ -34,13 +38,13 @@ export default function ModalSheet({
             >
                 <TouchableOpacity
                     activeOpacity={1}
-                    style={[styles.content, bottomSheet && styles.contentBottom]}
+                    style={[styles.content, bottomSheet && styles.contentBottom, { backgroundColor: Colors[theme].background, borderColor: Colors[theme].borderColor }]}
                     onPress={() => {}}
                 >
-                    {bottomSheet && <View style={styles.bar} />}
+                    {bottomSheet && <View style={[styles.bar, { backgroundColor: Colors[theme].borderColor }]} />}
                     {showCloseButton && (
                         <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
-                            <Ionicons name="close" size={28} color="white" />
+                            <Ionicons name="close" size={28} color={Colors[theme].icon} />
                         </TouchableOpacity>
                     )}
                     {children}
@@ -63,11 +67,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.7)',
     },
     content: {
-        backgroundColor: '#1A1B20',
         borderRadius: 32,
         padding: 30,
         borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.1)',
     },
     contentBottom: {
         borderRadius: 0,
@@ -79,7 +81,6 @@ const styles = StyleSheet.create({
     bar: {
         width: 40,
         height: 5,
-        backgroundColor: 'rgba(255,255,255,0.1)',
         borderRadius: 3,
         alignSelf: 'center',
         marginBottom: 20,

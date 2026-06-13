@@ -77,7 +77,7 @@ export default function HomeScreen() {
 
   const HeaderComponent = () => (
     <View style={styles.headerContainer}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
       {/* SECTION : Top 3 - MovieBox Style */}
       {topStories.length > 0 && (
         <View style={styles.featuredSection}>
@@ -114,7 +114,7 @@ export default function HomeScreen() {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={Colors[theme].primary} />
-        <Text style={styles.loadingText}>Chargement des histoires...</Text>
+        <Text style={[styles.loadingText, { color: Colors[theme].textMuted }]}>Chargement des histoires...</Text>
       </View>
     );
   }
@@ -151,7 +151,7 @@ export default function HomeScreen() {
         ListEmptyComponent={() =>
           !isLoading && stories.length === 0 ? (
             <View style={styles.emptyContainer}>
-              <Text style={styles.emptyText}>Aucune suggestion disponible</Text>
+              <Text style={[styles.emptyText, { color: Colors[theme].textMuted }]}>Aucune suggestion disponible</Text>
             </View>
           ) : null
         }
@@ -179,7 +179,6 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     marginTop: 15,
-    color: "#888",
     fontSize: 14,
   },
   scrollContent: {
@@ -197,7 +196,6 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   emptyText: {
-    color: "#888",
     fontSize: 14,
   },
 });

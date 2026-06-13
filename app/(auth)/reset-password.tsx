@@ -47,8 +47,8 @@ export default function ResetPasswordScreen() {
     };
 
     return (
-        <View style={styles.container}>
-            <StatusBar barStyle="light-content" />
+        <View style={[styles.container, { backgroundColor: Colors[theme].background }]}>
+            <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
 
             <View style={styles.header}>
                 <BackButton onPress={() => router.back()} />
@@ -57,8 +57,8 @@ export default function ResetPasswordScreen() {
             <View style={styles.content}>
                 <IconCircle iconName="key-outline" />
 
-                <Text style={styles.title}>Nouveau mot de passe</Text>
-                <Text style={styles.subtitle}>
+                <Text style={[styles.title, { color: Colors[theme].text }]}>Nouveau mot de passe</Text>
+                <Text style={[styles.subtitle, { color: Colors[theme].textMuted }]}>
                     Créez un nouveau mot de passe sécurisé que vous n'utilisez pas ailleurs.
                 </Text>
 
@@ -96,7 +96,6 @@ export default function ResetPasswordScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#0F1014',
     },
     header: {
         paddingTop: 50,
@@ -111,14 +110,12 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 28,
         fontWeight: '900',
-        color: 'white',
         textAlign: 'center',
         marginBottom: 15,
         letterSpacing: -0.5,
     },
     subtitle: {
         fontSize: 16,
-        color: 'rgba(255,255,255,0.5)',
         textAlign: 'center',
         lineHeight: 24,
         marginBottom: 40,

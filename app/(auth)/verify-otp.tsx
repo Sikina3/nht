@@ -95,8 +95,8 @@ export default function VerifyOtpScreen() {
     };
 
     return (
-        <View style={styles.container}>
-            <StatusBar barStyle="light-content" />
+        <View style={[styles.container, { backgroundColor: Colors[theme].background }]}>
+            <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
             <View style={styles.header}>
                 <BackButton onPress={() => router.back()} />
             </View>
@@ -104,8 +104,8 @@ export default function VerifyOtpScreen() {
             <View style={styles.content}>
                 <IconCircle iconName="shield-checkmark-outline" />
 
-                <Text style={styles.title}>Vérification</Text>
-                <Text style={styles.subtitle}>Saisissez le code de 6 chiffres envoyé au {'\n'}<Text style={styles.phoneText}>{params.phoneNumber}</Text></Text>
+                <Text style={[styles.title, { color: Colors[theme].text }]}>Vérification</Text>
+                <Text style={[styles.subtitle, { color: Colors[theme].textMuted }]}>Saisissez le code de 6 chiffres envoyé au {'\n'}<Text style={[styles.phoneText, { color: Colors[theme].text }]}>{params.phoneNumber}</Text></Text>
 
                 <View style={styles.otpContainer}>
                     {otp.map((digit, index) => (
@@ -115,8 +115,9 @@ export default function VerifyOtpScreen() {
                             style={[
                                 styles.otpInput,
                                 {
-                                    borderColor: digit ? Colors[theme].primary : 'rgba(255,255,255,0.1)',
-                                    backgroundColor: digit ? 'rgba(229, 9, 20, 0.05)' : 'rgba(255,255,255,0.03)'
+                                    borderColor: digit ? Colors[theme].primary : Colors[theme].borderColor,
+                                    backgroundColor: digit ? Colors[theme].primaryAlpha5 : Colors[theme].cardBgHover,
+                                    color: Colors[theme].text
                                 }
                             ]}
                             maxLength={1}
@@ -124,7 +125,7 @@ export default function VerifyOtpScreen() {
                             value={digit}
                             onChangeText={(text) => handleChange(text, index)}
                             onKeyPress={(e) => handleKeyPress(e, index)}
-                            placeholderTextColor="rgba(255,255,255,0.2)"
+                            placeholderTextColor={Colors[theme].textHint}
                         />
                     ))}
                 </View>
@@ -134,9 +135,9 @@ export default function VerifyOtpScreen() {
                     onPress={handleResendCode}
                     style={styles.resendContainer}
                 >
-                    <Text style={styles.resendText}>
+                    <Text style={[styles.resendText, { color: Colors[theme].textHint }]}>
                         Vous n'avez pas reçu de code ? {' '}
-                        <Text style={[styles.resendLink, timer === 0 && { color: Colors[theme].primary }]}>
+                        <Text style={[styles.resendLink, { color: Colors[theme].textMuted }, timer === 0 && { color: Colors[theme].primary }]}>
                             {timer > 0 ? `Renvoyer (${timer}s)` : 'Renvoyer'}
                         </Text>
                     </Text>
@@ -156,7 +157,6 @@ export default function VerifyOtpScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#0F1014'
     },
     header: {
         paddingTop: 50,
@@ -171,19 +171,16 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 28,
         fontWeight: '900',
-        color: 'white',
         marginBottom: 10,
         letterSpacing: -0.5,
     },
     subtitle: {
         fontSize: 15,
-        color: 'rgba(255,255,255,0.5)',
         marginBottom: 40,
         textAlign: 'center',
         lineHeight: 22,
     },
     phoneText: {
-        color: 'white',
         fontWeight: '700',
     },
     otpContainer: {
@@ -199,19 +196,16 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 24,
         fontWeight: '900',
-        color: 'white',
         borderWidth: 2,
     },
     resendContainer: {
         marginBottom: 40,
     },
     resendText: {
-        color: 'rgba(255,255,255,0.4)',
         fontSize: 14
     },
     resendLink: {
         fontWeight: '700',
-        color: 'rgba(255,255,255,0.6)',
     },
     validateButton: {
         width: '100%',

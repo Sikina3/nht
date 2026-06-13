@@ -25,8 +25,8 @@ export default function ModalActionButtons({
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.cancelBtn} onPress={onCancel}>
-                <Text style={styles.cancelText}>{cancelLabel}</Text>
+            <TouchableOpacity style={[styles.cancelBtn, { backgroundColor: Colors[theme].cardBgHover }]} onPress={onCancel}>
+                <Text style={[styles.cancelText, { color: Colors[theme].text }]}>{cancelLabel}</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={[styles.confirmBtn, { backgroundColor: bgColor }]}
@@ -53,10 +53,8 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(255,255,255,0.05)',
     },
     cancelText: {
-        color: 'white',
         fontWeight: '700',
         fontSize: 15,
     },

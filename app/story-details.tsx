@@ -236,7 +236,7 @@ export default function StoryDetailsScreen() {
     if (!story) {
         return (
             <View style={styles.errorContainer}>
-                <Text>Histoire introuvable</Text>
+                <Text style={{ color: C.text }}>Histoire introuvable</Text>
             </View>
         );
     }
@@ -272,7 +272,8 @@ export default function StoryDetailsScreen() {
                     <TouchableOpacity
                         style={[
                             styles.subscribeButton,
-                            isSubscribed && styles.subscribedButton,
+                            { backgroundColor: C.primary, shadowColor: C.primary },
+                            isSubscribed && [styles.subscribedButton, { backgroundColor: C.cardBgHover, borderColor: C.borderColor }],
                         ]}
                         onPress={handleSubscribe}
                         activeOpacity={0.85}
@@ -282,7 +283,7 @@ export default function StoryDetailsScreen() {
                             size={20}
                             color="white"
                         />
-                        <Text style={styles.subscribeButtonText}>
+                        <Text style={[styles.subscribeButtonText, { color: isSubscribed ? C.text : 'white' }]}>
                             {isSubscribed ? 'Déjà abonné' : "S'abonner à l'auteur"}
                         </Text>
                     </TouchableOpacity>
@@ -291,6 +292,7 @@ export default function StoryDetailsScreen() {
                     <TouchableOpacity
                         style={[
                             styles.downloadButton,
+                            { backgroundColor: C.primaryAlpha5, borderColor: C.primary },
                             downloaded && styles.downloadedButton,
                             downloading && styles.downloadingButton,
                         ]}
@@ -326,24 +328,23 @@ export default function StoryDetailsScreen() {
                     </TouchableOpacity>
                 </View>
 
-                {/* Description */}
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Synopsis</Text>
-                    <Text style={styles.description}>{story.description}</Text>
+                    <Text style={[styles.sectionTitle, { color: C.text }]}>Synopsis</Text>
+                    <Text style={[styles.description, { color: C.textMuted }]}>{story.description}</Text>
                 </View>
 
                 {/* Liste des chapitres */}
                 <View style={[styles.section, { marginBottom: 40 }]}>
                     <View style={styles.chapterHeader}>
-                        <Text style={styles.sectionTitle}>Chapitres</Text>
-                        <Text style={styles.chapterCount}>{chapters.length} Chapitres</Text>
+                        <Text style={[styles.sectionTitle, { color: C.text }]}>Chapitres</Text>
+                        <Text style={[styles.chapterCount, { color: C.textHint }]}>{chapters.length} Chapitres</Text>
                     </View>
 
                     {chapters.length > 0 ? (
                         chapters.map((chapter) => (
                             <TouchableOpacity
                                 key={chapter.id}
-                                style={styles.chapterItem}
+                                style={[styles.chapterItem, { backgroundColor: C.cardBg, borderColor: C.borderColor }]}
                                 onPress={() => handleReadChapter(chapter)}
                                 activeOpacity={0.7}
                             >
@@ -364,7 +365,7 @@ export default function StoryDetailsScreen() {
                                         </Text>
                                     </View>
                                     <View style={styles.chapterInfo}>
-                                        <Text style={styles.chapterTitle} numberOfLines={1}>
+                                        <Text style={[styles.chapterTitle, { color: C.text }]} numberOfLines={1}>
                                             {chapter.sousTitre ||
                                                 `Chapitre ${chapter.numeroChapitre}`}
                                         </Text>
@@ -392,13 +393,13 @@ export default function StoryDetailsScreen() {
                             </TouchableOpacity>
                         ))
                     ) : (
-                        <View style={styles.emptyChapters}>
+                        <View style={[styles.emptyChapters, { backgroundColor: C.cardBg }]}>
                             <Ionicons
                                 name="book-outline"
                                 size={40}
-                                color="rgba(255,255,255,0.1)"
+                                color={C.icon}
                             />
-                            <Text style={styles.emptyText}>
+                            <Text style={[styles.emptyText, { color: C.textHint }]}>
                                 Aucun chapitre disponible
                             </Text>
                         </View>
@@ -425,22 +426,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#E50914',
         paddingVertical: 14,
         borderRadius: 16,
         gap: 10,
-        shadowColor: '#E50914',
         shadowOffset: { width: 0, height: 8 },
         shadowOpacity: 0.3,
         shadowRadius: 12,
         elevation: 10,
     },
     subscribedButton: {
-        backgroundColor: 'rgba(255,255,255,0.1)',
         shadowOpacity: 0,
         elevation: 0,
         borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.1)',
     },
     subscribeButtonText: {
         color: 'white',
@@ -451,12 +448,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(229,9,20,0.1)',
         paddingVertical: 13,
         borderRadius: 16,
         gap: 8,
         borderWidth: 1.5,
-        borderColor: '#E50914',
     },
     downloadedButton: {
         backgroundColor: 'rgba(74,222,128,0.08)',

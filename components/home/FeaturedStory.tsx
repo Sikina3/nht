@@ -1,4 +1,5 @@
 import { useColorScheme } from "@/components/useColorScheme";
+import Colors from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import {
@@ -25,6 +26,9 @@ export default function FeaturedStory({
     onPress,
 }: FeaturedStoryProps) {
     const theme = useColorScheme() ?? "light";
+    const gradientColors = theme === 'dark' 
+        ? ["transparent", "rgba(15, 16, 20, 0.5)", "rgba(15, 16, 20, 0.95)"]
+        : ["transparent", "rgba(248, 249, 250, 0.5)", "rgba(248, 249, 250, 0.95)"];
 
     return (
         <TouchableOpacity
@@ -32,7 +36,7 @@ export default function FeaturedStory({
             onPress={onPress}
             style={styles.container}
         >
-            <View style={styles.card}>
+            <View style={[styles.card, { backgroundColor: Colors[theme].cardBg }]}>
                 <Image
                     source={{ uri: imageUrl }}
                     style={styles.image}
@@ -40,7 +44,7 @@ export default function FeaturedStory({
                 />
 
                 <LinearGradient
-                    colors={["transparent", "rgba(15, 16, 20, 0.5)", "rgba(15, 16, 20, 0.95)"]}
+                    colors={gradientColors as any}
                     style={styles.gradient}
                 />
 
@@ -49,17 +53,17 @@ export default function FeaturedStory({
                         <Text style={styles.badgeText}>À LA UNE</Text>
                     </View>
 
-                    <Text style={styles.title} numberOfLines={2}>
+                    <Text style={[styles.title, { color: Colors[theme].text }]} numberOfLines={2}>
                         {title}
                     </Text>
 
-                    <Text style={styles.description} numberOfLines={2}>
+                    <Text style={[styles.description, { color: Colors[theme].textMuted }]} numberOfLines={2}>
                         {description}
                     </Text>
 
                     <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={onPress}>
-                            <Text style={styles.buttonText}>Lire maintenant</Text>
+                        <TouchableOpacity style={[styles.button, { backgroundColor: theme === 'dark' ? 'white' : Colors[theme].text }]} onPress={onPress}>
+                            <Text style={[styles.buttonText, { color: theme === 'dark' ? 'black' : Colors[theme].background }]}>Lire maintenant</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -80,7 +84,6 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 24,
         borderBottomRightRadius: 24,
         overflow: "hidden",
-        backgroundColor: "#1A1C22",
     },
     image: {
         ...StyleSheet.absoluteFillObject,
@@ -117,7 +120,6 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
     },
     title: {
-        color: "white",
         fontSize: 24,
         fontWeight: "900",
         marginBottom: 4,
@@ -125,7 +127,6 @@ const styles = StyleSheet.create({
         letterSpacing: -0.5,
     },
     description: {
-        color: "rgba(255,255,255,0.6)",
         fontSize: 13,
         marginBottom: 15,
         lineHeight: 18,
@@ -134,14 +135,12 @@ const styles = StyleSheet.create({
         backgroundColor: "transparent",
     },
     button: {
-        backgroundColor: "white",
         paddingHorizontal: 20,
         paddingVertical: 10,
         borderRadius: 10,
         alignSelf: "flex-start",
     },
     buttonText: {
-        color: "black",
         fontSize: 14,
         fontWeight: "900",
     },

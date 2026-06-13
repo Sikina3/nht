@@ -101,19 +101,19 @@ export default function CollectionScreen() {
           {imageUrl ? (
             <Image source={{ uri: imageUrl }} style={styles.storyImage} />
           ) : (
-            <View style={styles.placeholderImage}>
-              <Ionicons name="book-outline" size={30} color="rgba(255,255,255,0.2)" />
+            <View style={[styles.placeholderImage, { backgroundColor: Colors[theme].cardBgHover }]}>
+              <Ionicons name="book-outline" size={30} color={Colors[theme].icon} />
             </View>
           )}
           <View style={[styles.badge, { backgroundColor: Colors[theme].primary }]}>
-            <Text style={styles.badgeText}>Ecrite</Text>
+            <Text style={[styles.badgeText, { color: 'white' }]}>Ecrite</Text>
           </View>
         </View>
         <View style={styles.storyTitleContainer}>
-          <Text style={styles.storyTitle} numberOfLines={1}>
+          <Text style={[styles.storyTitle, { color: Colors[theme].text }]} numberOfLines={1}>
             {story.titre}
           </Text>
-          <Text style={styles.storySubtitle}>{story.categories || 'Histoires'}</Text>
+          <Text style={[styles.storySubtitle, { color: Colors[theme].textHint }]}>{story.categories || 'Histoires'}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -123,7 +123,7 @@ export default function CollectionScreen() {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={Colors[theme].primary} />
-        <Text style={styles.loadingText}>Vos œuvres arrivent...</Text>
+        <Text style={[styles.loadingText, { color: Colors[theme].textMuted }]}>Vos œuvres arrivent...</Text>
       </View>
     );
   }
@@ -131,17 +131,17 @@ export default function CollectionScreen() {
   if (user?.role?.toLowerCase() !== 'ecrivain') {
     return (
       <View style={styles.notWriterContainer}>
-        <StatusBar barStyle="light-content" />
-        <View style={styles.lockCircle}>
+        <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
+        <View style={[styles.lockCircle, { backgroundColor: Colors[theme].primaryAlpha5 }]}>
           <Ionicons name="lock-closed" size={40} color={Colors[theme].primary} />
         </View>
-        <Text style={styles.notWriterTitle}>Espace Écrivain</Text>
-        <Text style={styles.notWriterText}>
+        <Text style={[styles.notWriterTitle, { color: Colors[theme].text }]}>Espace Écrivain</Text>
+        <Text style={[styles.notWriterText, { color: Colors[theme].textMuted }]}>
           Cette section est réservée aux écrivains passionnés.{'\n'}
           Transformez votre compte pour commencer à publier.
         </Text>
         <TouchableOpacity style={[styles.createButton, { backgroundColor: Colors[theme].primary, marginTop: 30 }]}>
-          <Text style={styles.createButtonText}>Devenir Écrivain</Text>
+          <Text style={[styles.createButtonText, { color: 'white' }]}>Devenir Écrivain</Text>
         </TouchableOpacity>
       </View>
     );
@@ -149,11 +149,11 @@ export default function CollectionScreen() {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Collections</Text>
-        <TouchableOpacity style={styles.notificationBtn}>
-          <Ionicons name="add" size={24} color="white" onPress={() => router.push('/(tabs)/write')} />
+        <Text style={[styles.headerTitle, { color: Colors[theme].text }]}>Collections</Text>
+        <TouchableOpacity style={[styles.notificationBtn, { backgroundColor: Colors[theme].cardBgHover, borderColor: Colors[theme].borderColor }]}>
+          <Ionicons name="add" size={24} color={Colors[theme].icon} onPress={() => router.push('/(tabs)/write')} />
         </TouchableOpacity>
       </View>
 
@@ -175,14 +175,14 @@ export default function CollectionScreen() {
             {enCoursStories.map(renderStoryCard)}
           </View>
         ) : (
-          <View style={styles.emptySection}>
-            <Text style={styles.emptyText}>Votre plume est prête ?</Text>
+          <View style={[styles.emptySection, { backgroundColor: Colors[theme].cardBg, borderColor: Colors[theme].borderColor }]}>
+            <Text style={[styles.emptyText, { color: Colors[theme].textHint }]}>Votre plume est prête ?</Text>
             <TouchableOpacity
               style={[styles.createButton, { backgroundColor: Colors[theme].primary }]}
               onPress={() => router.push('/(tabs)/write')}
             >
               <Ionicons name="add" size={20} color="white" />
-              <Text style={styles.createButtonText}>Nouvelle œuvre</Text>
+              <Text style={[styles.createButtonText, { color: 'white' }]}>Nouvelle œuvre</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -195,8 +195,8 @@ export default function CollectionScreen() {
             {termineStories.map(renderStoryCard)}
           </View>
         ) : (
-          <View style={[styles.emptySection, { opacity: 0.5 }]}>
-            <Text style={styles.emptyText}>Aucune histoire terminée</Text>
+          <View style={[styles.emptySection, { opacity: 0.5, backgroundColor: Colors[theme].cardBg, borderColor: Colors[theme].borderColor }]}>
+            <Text style={[styles.emptyText, { color: Colors[theme].textHint }]}>Aucune histoire terminée</Text>
           </View>
         )}
 

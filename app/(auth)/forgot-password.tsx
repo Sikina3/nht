@@ -16,8 +16,8 @@ export default function ForgotPasswordScreen() {
     const [phoneNumber, setPhoneNumber] = useState('');
 
     return (
-        <View style={styles.container}>
-            <StatusBar barStyle="light-content" />
+        <View style={[styles.container, { backgroundColor: Colors[theme].background }]}>
+            <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
 
             {/* Background elements */}
             <View style={styles.bgCircle} />
@@ -29,17 +29,17 @@ export default function ForgotPasswordScreen() {
             <View style={styles.content}>
                 <IconCircle iconName="lock-open-outline" />
 
-                <Text style={styles.title}>Mot de passe oublié ?</Text>
-                <Text style={styles.subtitle}>
+                <Text style={[styles.title, { color: Colors[theme].text }]}>Mot de passe oublié ?</Text>
+                <Text style={[styles.subtitle, { color: Colors[theme].textMuted }]}>
                     Ne vous inquiétez pas ! Entrez votre numéro et nous vous enverrons un code de réinitialisation.
                 </Text>
 
-                <View style={[styles.inputContainer, { borderColor: 'rgba(255,255,255,0.1)' }]}>
-                    <Ionicons name="call-outline" size={20} color="rgba(255,255,255,0.4)" style={styles.inputIcon} />
+                <View style={[styles.inputContainer, { backgroundColor: Colors[theme].cardBgHover, borderColor: Colors[theme].borderColor }]}>
+                    <Ionicons name="call-outline" size={20} color={Colors[theme].icon} style={styles.inputIcon} />
                     <TextInput
-                        style={styles.input}
+                        style={[styles.input, { color: Colors[theme].text }]}
                         placeholder="Numéro de téléphone"
-                        placeholderTextColor="rgba(255,255,255,0.3)"
+                        placeholderTextColor={Colors[theme].textHint}
                         keyboardType="phone-pad"
                         value={phoneNumber}
                         onChangeText={setPhoneNumber}
@@ -56,7 +56,7 @@ export default function ForgotPasswordScreen() {
                     style={styles.footerLink}
                     onPress={() => router.push('/(auth)/register')}
                 >
-                    <Text style={styles.footerText}>
+                    <Text style={[styles.footerText, { color: Colors[theme].textMuted }]}>
                         Pas encore de compte ? <Text style={[styles.linkText, { color: Colors[theme].primary }]}>S'inscrire</Text>
                     </Text>
                 </TouchableOpacity>
@@ -68,7 +68,6 @@ export default function ForgotPasswordScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#0F1014',
     },
     bgCircle: {
         position: 'absolute',
@@ -77,7 +76,7 @@ const styles = StyleSheet.create({
         width: 300,
         height: 300,
         borderRadius: 150,
-        backgroundColor: 'rgba(229, 9, 20, 0.05)',
+        backgroundColor: 'rgba(229, 9, 20, 0.05)', // Kept static as it's a primary brand accent
     },
     header: {
         paddingTop: 50,
@@ -92,14 +91,12 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 28,
         fontWeight: '900',
-        color: 'white',
         textAlign: 'center',
         marginBottom: 15,
         letterSpacing: -0.5,
     },
     subtitle: {
         fontSize: 16,
-        color: 'rgba(255,255,255,0.5)',
         textAlign: 'center',
         lineHeight: 24,
         marginBottom: 40,
@@ -110,7 +107,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: 60,
-        backgroundColor: 'rgba(255,255,255,0.03)',
         borderRadius: 16,
         borderWidth: 1,
         paddingHorizontal: 15,
@@ -121,7 +117,6 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        color: 'white',
         fontSize: 16,
         fontWeight: '600',
     },
@@ -136,7 +131,6 @@ const styles = StyleSheet.create({
     },
     footerText: {
         fontSize: 14,
-        color: 'rgba(255,255,255,0.5)',
     },
     linkText: {
         fontWeight: '900',
