@@ -53,7 +53,7 @@ function ReadingCard({
     };
 
     return (
-        <TouchableOpacity style={[styles.readingCard, { backgroundColor: C.secondary, borderColor: C.borderColor }]} onPress={onPress} activeOpacity={0.75}>
+        <TouchableOpacity style={[styles.readingCard, { backgroundColor: C.cardBg, borderColor: C.borderColor }]} onPress={onPress} activeOpacity={0.75}>
             <Image source={{ uri: imageUri }} style={styles.readingImage} />
             <View style={styles.readingInfo}>
                 <Text style={[styles.readingTitle, { color: C.text }]} numberOfLines={1}>
@@ -114,7 +114,7 @@ function DownloadCard({
 
     return (
         <TouchableOpacity
-            style={[styles.downloadCard, { backgroundColor: C.secondary, borderColor: C.borderColor }]}
+            style={[styles.downloadCard, { backgroundColor: C.cardBg, borderColor: C.borderColor }]}
             onPress={onPress}
             activeOpacity={0.75}
         >
@@ -131,12 +131,12 @@ function DownloadCard({
                         <Ionicons name="cloud-offline-outline" size={11} color="#3B82F6" style={{ marginRight: 4 }} />
                         <Text style={[styles.badgeText, { color: "#3B82F6" }]}>Hors-ligne</Text>
                     </View>
-                    <View style={[styles.badge, { backgroundColor: C.gray }]}>
+                    <View style={[styles.badge, { backgroundColor: C.cardBgHover }]}>
                         <Text style={[styles.badgeText, { color: C.medium }]}>
                             {item.chapters.length} chap.
                         </Text>
                     </View>
-                    <View style={[styles.badge, { backgroundColor: C.gray }]}>
+                    <View style={[styles.badge, { backgroundColor: C.cardBgHover }]}>
                         <Text style={[styles.badgeText, { color: C.medium }]}>{size}</Text>
                     </View>
                 </View>
@@ -297,7 +297,7 @@ export default function LibraryScreen() {
         subtitle: string;
     }) => (
         <View style={styles.emptyContainer}>
-            <View style={[styles.emptyIconBox, { backgroundColor: C.secondary }]}>
+            <View style={[styles.emptyIconBox, { backgroundColor: C.cardBgHover }]}>
                 <Ionicons name={icon as any} size={44} color={C.medium} />
             </View>
             <Text style={[styles.emptyTitle, { color: C.text }]}>{title}</Text>
@@ -319,7 +319,7 @@ export default function LibraryScreen() {
                     <Text style={[styles.greet, { color: C.medium }]}>Bonjour,</Text>
                     <Text style={[styles.userName, { color: C.text }]}>{user?.nom ?? "Lecteur"}</Text>
                 </View>
-                <View style={[styles.coinsBox, { backgroundColor: C.secondary }]}>
+                <View style={[styles.coinsBox, { backgroundColor: C.cardBgHover }]}>
                     <Ionicons name="logo-bitcoin" size={16} color="#FFD700" />
                     <Text style={[styles.coinsText, { color: "#FFD700" }]}>
                         {user?.soldeCoins ?? 0}
@@ -356,7 +356,7 @@ export default function LibraryScreen() {
                 ].map((stat) => (
                     <View
                         key={stat.label}
-                        style={[styles.statCard, { backgroundColor: C.secondary, borderColor: C.borderColor }]}
+                        style={[styles.statCard, { backgroundColor: C.cardBg, borderColor: C.borderColor }]}
                     >
                         <Ionicons name={stat.icon as any} size={22} color={stat.color} />
                         <Text style={[styles.statValue, { color: stat.color }]}>
