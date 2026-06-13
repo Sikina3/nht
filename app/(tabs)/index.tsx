@@ -52,7 +52,7 @@ export default function HomeScreen() {
       // Top 3 = les 3 premières histoires
       setTopStories(allStories.slice(0, 3));
 
-      // Suggestions = le reste des histoires
+      // le reste des histoires
       setStories(allStories.slice(0, 10));
     } catch (error) {
       console.error("Erreur lors du chargement des histoires:", error);

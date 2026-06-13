@@ -55,7 +55,7 @@ export default function StoryHeader({
 
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>
-      {/* Arrière-plan flou (simulé avec gradient et image) */}
+      {/* Arrière-plan flou */}
       {coverImage && (
         <Image
           source={{ uri: coverImage }}

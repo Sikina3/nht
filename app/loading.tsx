@@ -26,15 +26,13 @@ export default function LoadingScreen() {
         ]).start();
     }, []);
 
-    // Naviguer seulement quand AuthContext a fini de charger depuis le localStorage
     useEffect(() => {
-        if (isLoading) return; // Patience, on attend la fin du chargement
+        if (isLoading) return;
 
         const timer = setTimeout(() => {
             if (user) {
                 router.replace('/(tabs)');
             } else {
-                // Aucun compte dans le localStorage → aller au login
                 router.replace('/(auth)/login');
             }
         }, 2500);

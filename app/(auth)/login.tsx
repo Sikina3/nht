@@ -40,7 +40,6 @@ export default function LoginScreen() {
             const response = await authService.login(phoneNumber, password);
             const userData = response.data;
 
-            // Sauvegarde les vraies données de l'utilisateur dans le contexte
             await signIn({
                 id: userData.id,
                 nom: userData.nom,

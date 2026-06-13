@@ -1,4 +1,4 @@
-const tintColorLight = "#E50914"; // Netflix red for a premium feel
+const tintColorLight = "#E50914";
 const tintColorDark = "#FF1F1F";
 
 export default {
@@ -23,7 +23,7 @@ export default {
     purple: "#8B5CF6",
     blue: "#3B82F6",
     gray: "#2C2C2E",
-    cardBg: "#FFFFFF", // Clean white cards on off-white background
+    cardBg: "#FFFFFF",
     cardBgHover: "rgba(17, 17, 17, 0.05)",
     borderColor: "rgba(17, 17, 17, 0.1)",
     borderFaint: "rgba(17, 17, 17, 0.05)",

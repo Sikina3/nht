@@ -9,7 +9,6 @@ const api = axios.create({
 
 export const authService = {
   login: async (phoneNumber: string, mot_de_passe: string) => {
-    // This should match your backend's login endpoint
     return api.post("/users/login", { num_tel: phoneNumber, mot_de_passe });
   },
   register: async (userData: any) => {

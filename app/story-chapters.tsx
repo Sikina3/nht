@@ -89,7 +89,6 @@ export default function StoryChaptersScreen() {
     };
 
     const handleViewChapter = async (chapter: Chapter) => {
-        // Sauvegarde les métadonnées pour la bibliothèque
         if (storyCover) {
             await AsyncStorage.setItem(`story_cover_${storyId}`, storyCover);
         }

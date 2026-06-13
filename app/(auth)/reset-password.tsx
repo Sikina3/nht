@@ -35,8 +35,6 @@ export default function ResetPasswordScreen() {
 
         setLoading(true);
         try {
-            // Ici viendra l'appel API pour réinitialiser le mot de passe
-            // const response = await authService.resetPassword(phoneNumber, password);
             Alert.alert('Succès', 'Votre mot de passe a été réinitialisé');
             router.replace('/(auth)/login');
         } catch (error: any) {

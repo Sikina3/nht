@@ -67,7 +67,6 @@ export default function StoryDetailsScreen() {
         loadStoryDetails();
     }, [storyId]);
 
-    // Vérifier si déjà téléchargé
     useEffect(() => {
         isDownloaded(parseInt(storyId)).then(setDownloaded);
     }, [storyId]);
@@ -106,7 +105,6 @@ export default function StoryDetailsScreen() {
         loadStoryDetails();
     }, [storyId]);
 
-    // ─── Sauvegarde des métadonnées pour la bibliothèque ────────────
     const persistStoryMeta = async () => {
         if (!story) return;
         const coverUrl = getImageUrl(story.photoCouverture);
@@ -119,9 +117,8 @@ export default function StoryDetailsScreen() {
         ]);
     };
 
-    // ─── Ouvrir un chapitre ──────────────────────────────────────────
     const handleReadChapter = async (chapter: Chapter) => {
-        await persistStoryMeta(); // ← CORRECTION : sauvegarde avant navigation
+        await persistStoryMeta(); 
         router.push({
             pathname: '/read-chapter',
             params: {
@@ -133,7 +130,6 @@ export default function StoryDetailsScreen() {
         });
     };
 
-    // ─── S'abonner ──────────────────────────────────────────────────
     const handleSubscribe = async () => {
         if (!user) {
             Alert.alert('Connexion requise', 'Veuillez vous connecter pour vous abonner.');
@@ -155,12 +151,10 @@ export default function StoryDetailsScreen() {
         }
     };
 
-    // ─── Télécharger / Supprimer ─────────────────────────────────────
     const handleDownload = async () => {
         if (!story) return;
 
         if (downloaded) {
-            // Supprimer le téléchargement
             Alert.alert(
                 'Supprimer le téléchargement',
                 `Voulez-vous supprimer "${story.titre}" de vos téléchargements ?`,
@@ -179,10 +173,8 @@ export default function StoryDetailsScreen() {
             return;
         }
 
-        // Télécharger
         setDownloading(true);
         try {
-            // Charger les chapitres avec leur contenu complet si pas encore chargé
             let fullChapters = chapters;
             if (chapters.length > 0 && !chapters[0].contenu) {
                 const response = await api.get(`/chapters/story/${storyId}`);

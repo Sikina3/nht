@@ -9,9 +9,6 @@ interface WorkCardProps {
   onPress?: () => void;
 }
 
-/**
- * Composant pour afficher une œuvre de l'auteur
- */
 export default function WorkCard({ title, imageUrl, onPress }: WorkCardProps) {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>

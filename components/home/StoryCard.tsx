@@ -10,7 +10,7 @@ const { width } = Dimensions.get("window");
 interface StoryCardProps {
   title: string;
   imageUrl: string;
-  footerColor?: string; // Gardé pour la compatibilité mais moins utilisé graphiquement
+  footerColor?: string; 
   width?: number;
   height?: number;
   storyId?: number;

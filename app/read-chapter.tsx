@@ -57,9 +57,6 @@ export default function ReadChapterScreen() {
 
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
-  // ── Chargement initial ────────────────────────────────────────
-  // On charge le chapitre ET la dernière page lue en séquence,
-  // pour éviter la race-condition qui réinitialisait la progression.
   useEffect(() => {
     initChapter();
   }, [chapterId]);
@@ -110,16 +107,12 @@ export default function ReadChapterScreen() {
       const pagesArray = splitContentIntoPages(chapterData.contenu);
       setPages(pagesArray);
 
-      // ── Restaurer la dernière page lue (APRÈS avoir les pages) ──
       const savedPage = await loadLastReadPage();
 
       if (savedPage !== null && savedPage > 0) {
-        // Reprendre là où on s'est arrêté — on NE réinitialise PAS à 0
         setCurrentPage(savedPage);
-        // Mettre à jour la progression avec la page restaurée
         await recordProgressRaw(chapterData, pagesArray, savedPage);
       } else {
-        // Première ouverture : enregistrer l'ouverture à la page 0
         await recordProgressRaw(chapterData, pagesArray, 0);
       }
     } catch (error) {
@@ -130,11 +123,8 @@ export default function ReadChapterScreen() {
   };
 
   const splitContentIntoPages = (content: string): string[] => {
-    // La hauteur de la page ne peut contenir qu'un certain nombre de lignes.
-    // Au lieu de compter juste 150 mots (qui peuvent déborder si beaucoup de retours à la ligne),
-    // on va calculer virtuellement les lignes !
-    const MAX_CHARS_PER_LINE = 36; // Moyenne de caractères qui rentrent sur la largeur de l'écran
-    const MAX_LINES_PER_PAGE = 24; // Maximum de lignes qui rentrent dans le composant Page
+    const MAX_CHARS_PER_LINE = 36; 
+    const MAX_LINES_PER_PAGE = 24; 
 
     const paragraphs = content.split('\n');
     const pagesArray: string[] = [];
@@ -162,10 +152,9 @@ export default function ReadChapterScreen() {
 
       for (let j = 0; j < words.length; j++) {
         const word = words[j];
-        const wordLength = word.length + 1; // Mot + espace
+        const wordLength = word.length + 1; 
 
         if (currentLineLength + wordLength > MAX_CHARS_PER_LINE) {
-          // Le texte passe virtuellement à la ligne suivante
           currentLineCount++;
           currentLineLength = wordLength;
 
@@ -182,14 +171,12 @@ export default function ReadChapterScreen() {
         }
       }
 
-      // Fin de paragraphe
-      currentLineCount += 2; // L'espace du dernier texte + 1 ligne vide
+      currentLineCount += 2; 
       if (currentLineCount >= MAX_LINES_PER_PAGE) {
         if (currentPageContent.trim()) pagesArray.push(currentPageContent.trim());
         currentPageContent = "";
         currentLineCount = 0;
       } else {
-        // Seulement s'il ne s'agit pas du tout dernier paragraphe
         if (i !== paragraphs.length - 1) {
           currentPageContent += "\n\n";
         }
@@ -203,7 +190,6 @@ export default function ReadChapterScreen() {
     return pagesArray.length > 0 ? pagesArray : [""];
   };
 
-  // Retourne le numéro de page sauvegardé, ou null si absente
   const loadLastReadPage = async (): Promise<number | null> => {
     try {
       const key = `lastPage_${storyId}_${chapterId}`;
@@ -218,7 +204,6 @@ export default function ReadChapterScreen() {
     }
   };
 
-  // Enregistre la progression avec des données fraîches (évite les deps de state)
   const recordProgressRaw = async (
     chapterData: Chapter,
     pagesArray: string[],
@@ -316,14 +301,14 @@ export default function ReadChapterScreen() {
         contenu: newComment
       });
       setNewComment("");
-      loadComments(); // Refresh comments
+      loadComments();
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleLikeStory = async () => {
-    if (hasLiked || isOffline) return; // Prevent duplicate clicks for now
+    if (hasLiked || isOffline) return;
     try {
       await api.post(`/stories/${storyId}/like`);
       setHasLiked(true);
@@ -389,7 +374,6 @@ export default function ReadChapterScreen() {
           />
         </TouchableOpacity>
 
-        {/* Progress bar */}
         {showControls && (
           <Animated.View
             style={[styles.progressContainer, { opacity: fadeAnim }]}
@@ -408,7 +392,6 @@ export default function ReadChapterScreen() {
           </Animated.View>
         )}
 
-        {/* Modal pour commentaires et avis */}
         <Modal
           visible={showComments}
           animationType="slide"

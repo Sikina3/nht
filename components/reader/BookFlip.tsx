@@ -51,11 +51,9 @@ export default function BookFlip({ pages, currentPage, onPageChange }: BookFlipP
         .onUpdate((event) => {
             const delta = event.translationX - startX.value;
 
-            // Swipe vers la gauche (page suivante)
             if (delta < 0 && canGoNext) {
                 flipProgress.value = Math.max(-1, delta / PAGE_WIDTH);
             }
-            // Swipe vers la droite (page précédente)
             else if (delta > 0 && canGoPrev) {
                 flipProgress.value = Math.min(1, delta / PAGE_WIDTH);
             }
@@ -64,34 +62,26 @@ export default function BookFlip({ pages, currentPage, onPageChange }: BookFlipP
             const delta = event.translationX - startX.value;
             const velocity = event.velocityX;
 
-            // Déterminer si on change de page
             if (Math.abs(delta) > PAGE_WIDTH * 0.3 || Math.abs(velocity) > 500) {
                 if (delta < 0 && canGoNext) {
-                    // Aller à la page suivante
                     flipProgress.value = withTiming(-1, { duration: 300 }, () => {
                         runOnJS(goToNextPage)();
                         flipProgress.value = 0;
                     });
                 } else if (delta > 0 && canGoPrev) {
-                    // Aller à la page précédente
                     flipProgress.value = withTiming(1, { duration: 300 }, () => {
                         runOnJS(goToPrevPage)();
                         flipProgress.value = 0;
                     });
                 } else {
-                    // Revenir à la position initiale
                     flipProgress.value = withTiming(0, { duration: 200 });
                 }
             } else {
-                // Revenir à la position initiale
                 flipProgress.value = withTiming(0, { duration: 200 });
             }
         });
 
-    // Animation de la page actuelle (celle qui se tourne)
     const currentPageStyle = useAnimatedStyle(() => {
-        // Rotation : Swipe gauche (-1) -> rotation vers la gauche (-180)
-        // Rotation : Swipe droite (1) -> rotation vers la droite (180)
         const rotateY = interpolate(
             flipProgress.value,
             [-1, 0, 1],
@@ -99,8 +89,6 @@ export default function BookFlip({ pages, currentPage, onPageChange }: BookFlipP
             Extrapolate.CLAMP
         );
 
-        // Translation : Swipe gauche (-1) -> sort à gauche (-WIDTH)
-        // Translation : Swipe droite (1) -> sort à droite (WIDTH)
         const translateX = interpolate(
             flipProgress.value,
             [-1, 0, 1],
@@ -108,7 +96,6 @@ export default function BookFlip({ pages, currentPage, onPageChange }: BookFlipP
             Extrapolate.CLAMP
         );
 
-        // Effet de pliure/courbure (mise à l'échelle légère pendant le tournage)
         const scale = interpolate(
             Math.abs(flipProgress.value),
             [0, 0.5, 1],
@@ -119,11 +106,11 @@ export default function BookFlip({ pages, currentPage, onPageChange }: BookFlipP
         return {
             transform: [
                 { perspective: 1200 },
-                { rotateY: `${rotateY}deg` }, // Rotation plus douce
-                { translateX: translateX }, // Sortie latérale
+                { rotateY: `${rotateY}deg` },
+                { translateX: translateX }, 
                 { scale: scale },
             ],
-            backfaceVisibility: 'hidden', // Cache l'arrière de la page pendant la rotation
+            backfaceVisibility: 'hidden', 
             opacity: interpolate(
                 Math.abs(flipProgress.value),
                 [0, 0.8, 1],
@@ -133,7 +120,6 @@ export default function BookFlip({ pages, currentPage, onPageChange }: BookFlipP
         };
     });
 
-    // Animation de la page suivante (qui apparaît par le dessous)
     const nextPageStyle = useAnimatedStyle(() => {
         const opacity = interpolate(
             flipProgress.value,
@@ -155,7 +141,6 @@ export default function BookFlip({ pages, currentPage, onPageChange }: BookFlipP
         };
     });
 
-    // Animation de la page précédente (qui apparaît par le dessous)
     const prevPageStyle = useAnimatedStyle(() => {
         const opacity = interpolate(
             flipProgress.value,

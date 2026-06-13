@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// ─── Types ────────────────────────────────────────────────────
 export interface DownloadedChapter {
     id: number;
     numeroChapitre: number;
@@ -16,7 +15,7 @@ export interface DownloadedStory {
     categories: string;
     auteurNom: string;
     chapters: DownloadedChapter[];
-    downloadedAt: string; // ISO date
+    downloadedAt: string;
     totalChapters: number;
 }
 
@@ -30,27 +29,20 @@ export interface ReadingProgress {
     chapterTitle: string;
     currentPage: number;
     totalPages: number;
-    progress: number; // 0-100
-    lastReadAt: string; // ISO date
+    progress: number; 
+    lastReadAt: string;
 }
 
-// ─── Clés AsyncStorage ───────────────────────────────────────
-const DOWNLOADS_INDEX_KEY = "nht_downloads_index"; // liste des IDs téléchargés
-const DOWNLOAD_PREFIX = "nht_story_"; // + storyId
-const PROGRESS_INDEX_KEY = "nht_progress_index"; // liste des IDs en cours
-const PROGRESS_PREFIX = "nht_progress_"; // + storyId
+const DOWNLOADS_INDEX_KEY = "nht_downloads_index"; 
+const DOWNLOAD_PREFIX = "nht_story_";
+const PROGRESS_INDEX_KEY = "nht_progress_index";
+const PROGRESS_PREFIX = "nht_progress_";
 
-// ═══════════════════════════════════════════════════════════════
-//  TÉLÉCHARGEMENTS
-// ═══════════════════════════════════════════════════════════════
-
-/** Sauvegarder une histoire téléchargée */
 export async function saveDownload(story: DownloadedStory): Promise<void> {
     try {
         const key = `${DOWNLOAD_PREFIX}${story.id}`;
         await AsyncStorage.setItem(key, JSON.stringify(story));
 
-        // Mettre à jour l'index
         const index = await getDownloadIndex();
         if (!index.includes(story.id)) {
             index.push(story.id);
@@ -62,7 +54,6 @@ export async function saveDownload(story: DownloadedStory): Promise<void> {
     }
 }
 
-/** Récupérer tous les IDs téléchargés */
 async function getDownloadIndex(): Promise<number[]> {
     try {
         const raw = await AsyncStorage.getItem(DOWNLOADS_INDEX_KEY);
@@ -72,7 +63,6 @@ async function getDownloadIndex(): Promise<number[]> {
     }
 }
 
-/** Récupérer toutes les histoires téléchargées */
 export async function getAllDownloads(): Promise<DownloadedStory[]> {
     try {
         const index = await getDownloadIndex();
@@ -91,7 +81,6 @@ export async function getAllDownloads(): Promise<DownloadedStory[]> {
     }
 }
 
-/** Récupérer une histoire téléchargée par ID */
 export async function getDownload(storyId: number): Promise<DownloadedStory | null> {
     try {
         const raw = await AsyncStorage.getItem(`${DOWNLOAD_PREFIX}${storyId}`);
@@ -101,7 +90,6 @@ export async function getDownload(storyId: number): Promise<DownloadedStory | nu
     }
 }
 
-/** Supprimer un téléchargement */
 export async function deleteDownload(storyId: number): Promise<void> {
     try {
         await AsyncStorage.removeItem(`${DOWNLOAD_PREFIX}${storyId}`);
@@ -114,23 +102,16 @@ export async function deleteDownload(storyId: number): Promise<void> {
     }
 }
 
-/** Vérifier si une histoire est téléchargée */
 export async function isDownloaded(storyId: number): Promise<boolean> {
     const index = await getDownloadIndex();
     return index.includes(storyId);
 }
 
-// ═══════════════════════════════════════════════════════════════
-//  PROGRESSIONS DE LECTURE
-// ═══════════════════════════════════════════════════════════════
-
-/** Sauvegarder ou mettre à jour la progression de lecture */
 export async function saveReadingProgress(progress: ReadingProgress): Promise<void> {
     try {
         const key = `${PROGRESS_PREFIX}${progress.storyId}`;
         await AsyncStorage.setItem(key, JSON.stringify(progress));
 
-        // Mettre à jour l'index
         const index = await getProgressIndex();
         if (!index.includes(progress.storyId)) {
             index.push(progress.storyId);
@@ -141,7 +122,6 @@ export async function saveReadingProgress(progress: ReadingProgress): Promise<vo
     }
 }
 
-/** Récupérer tous les IDs de progression */
 async function getProgressIndex(): Promise<number[]> {
     try {
         const raw = await AsyncStorage.getItem(PROGRESS_INDEX_KEY);
@@ -151,7 +131,6 @@ async function getProgressIndex(): Promise<number[]> {
     }
 }
 
-/** Récupérer toutes les progressions de lecture */
 export async function getAllReadingProgress(): Promise<ReadingProgress[]> {
     try {
         const index = await getProgressIndex();
@@ -170,7 +149,6 @@ export async function getAllReadingProgress(): Promise<ReadingProgress[]> {
     }
 }
 
-/** Récupérer la progression d'une histoire */
 export async function getReadingProgress(storyId: number): Promise<ReadingProgress | null> {
     try {
         const raw = await AsyncStorage.getItem(`${PROGRESS_PREFIX}${storyId}`);
@@ -180,7 +158,6 @@ export async function getReadingProgress(storyId: number): Promise<ReadingProgre
     }
 }
 
-/** Supprimer la progression d'une histoire */
 export async function deleteReadingProgress(storyId: number): Promise<void> {
     try {
         await AsyncStorage.removeItem(`${PROGRESS_PREFIX}${storyId}`);
@@ -192,7 +169,6 @@ export async function deleteReadingProgress(storyId: number): Promise<void> {
     }
 }
 
-/** Taille estimée d'un téléchargement en Ko */
 export function estimateDownloadSize(story: DownloadedStory): string {
     const totalChars = story.chapters.reduce(
         (acc, ch) => acc + (ch.contenu?.length ?? 0),
