@@ -109,8 +109,19 @@ export default function TabLayout() {
         name="library"
         options={{
           title: "Bibliothèque",
+          href: isWriter ? null : undefined,
+          tabBarItemStyle: isWriter ? { display: "none" } : undefined,
           tabBarIcon: ({ focused, color }) => (
             <TabBarIcon name="library-sharp" focused={focused} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: "Recherche",
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon name="search-sharp" focused={focused} color={color} />
           ),
         }}
       />
@@ -128,12 +139,12 @@ export default function TabLayout() {
       <Tabs.Screen
         name="collection"
         options={{
-          title: "Collection",
+          title: "Mon Espace",
           headerShown: false,
           href: isWriter ? undefined : null,
           tabBarItemStyle: isWriter ? undefined : { display: "none" },
           tabBarIcon: ({ focused, color }) => (
-            <TabBarIcon name="bookmark-sharp" focused={focused} color={color} />
+            <TabBarIcon name="apps-sharp" focused={focused} color={color} />
           ),
         }}
       />
