@@ -137,12 +137,15 @@ export default function CollectionScreen() {
         </View>
         <Text style={[styles.notWriterTitle, { color: Colors[theme].text }]}>Espace Écrivain</Text>
         <Text style={[styles.notWriterText, { color: Colors[theme].textMuted }]}>
-          Cette section est réservée aux écrivains passionnés.{'\n'}
-          Transformez votre compte pour commencer à publier.
+          Cette section est réservée aux écrivains.{'\n'}
+          Le rôle est défini une fois pour toutes lors de l'inscription.
         </Text>
-        <TouchableOpacity style={[styles.createButton, { backgroundColor: Colors[theme].primary, marginTop: 30 }]}>
-          <Text style={[styles.createButtonText, { color: 'white' }]}>Devenir Écrivain</Text>
-        </TouchableOpacity>
+        <View style={[styles.roleFixedBadge, { borderColor: Colors[theme].borderColor }]}>
+          <Ionicons name="shield-checkmark-outline" size={14} color={Colors[theme].textHint} />
+          <Text style={[styles.roleFixedText, { color: Colors[theme].textHint }]}>
+            Votre compte est enregistré comme Lecteur
+          </Text>
+        </View>
       </View>
     );
   }
@@ -247,6 +250,22 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.5)',
     textAlign: 'center',
     lineHeight: 24,
+    marginBottom: 8,
+  },
+  roleFixedBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginTop: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 12,
+    borderWidth: 1,
+    opacity: 0.6,
+  },
+  roleFixedText: {
+    fontSize: 13,
+    fontWeight: '600',
   },
   header: {
     flexDirection: 'row',

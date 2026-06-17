@@ -3,10 +3,8 @@ import { useColorScheme } from "@/components/useColorScheme";
 import Colors from "@/constants/Colors";
 import { useAuth } from "@/context/AuthContext";
 import api from "@/services/api";
-import AuthInput from "@/components/ui/AuthInput";
 import GradientButton from "@/components/ui/GradientButton";
 import IconCircle from "@/components/ui/IconCircle";
-import ModalActionButtons from "@/components/ui/ModalActionButtons";
 import ModalSheet from "@/components/ui/ModalSheet";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -38,7 +36,7 @@ const CATEGORIES = [
 
 export default function WriteScreen() {
   const router = useRouter();
-  const { user, updateUser } = useAuth();
+  const { user } = useAuth();
   const theme = useColorScheme() ?? "light";
   const [image, setImage] = useState<string | null>(null);
   const [titre, setTitre] = useState("");
@@ -47,8 +45,6 @@ export default function WriteScreen() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showCategoryPicker, setShowCategoryPicker] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [showBecomeWriterModal, setShowBecomeWriterModal] = useState(false);
-  const [biographie, setBiographie] = useState("");
 
   const wordCount = contenu.trim() ? contenu.trim().split(/\s+/).length : 0;
 
@@ -142,66 +138,19 @@ export default function WriteScreen() {
     }
   };
 
-  const handleBecomeWriter = async () => {
-    if (!user) return;
-    setIsLoading(true);
-    try {
-      const response = await api.post(`/users/${user.id}/become-writer`, {
-        biographie: biographie
-      });
-
-      if (response.data) {
-        // Mise à jour locale du rôle dans le contexte Auth
-        await updateUser({ role: 'ecrivain', bio: biographie });
-        Alert.alert("Félicitations !", "Vous êtes maintenant un écrivain. Vous pouvez commencer à publier !");
-        setShowBecomeWriterModal(false);
-      }
-    } catch (error) {
-      console.error("Erreur become writer:", error);
-      Alert.alert("Erreur", "Impossible de valider votre demande. Veuillez réessayer.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   if (user?.role?.toLowerCase() !== 'ecrivain') {
     return (
       <View style={styles.notWriterContainer}>
         <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
-        <IconCircle iconName="create-outline" />
+        <IconCircle iconName="lock-closed-outline" />
         <Text style={[styles.notWriterTitle, { color: Colors[theme].text }]}>Espace Écrivain</Text>
         <Text style={[styles.notWriterText, { color: Colors[theme].textMuted }]}>
-          Prêt à partager votre talent ?{'\n'}
-          Devenez écrivain pour commencer à publier vos propres histoires.
+          Cet espace est exclusivement réservé aux écrivains.{"\n"}
+          Le rôle est défini une fois pour toutes lors de l'inscription.
         </Text>
-        <TouchableOpacity
-          style={[styles.becomeWriterBtn, { backgroundColor: Colors[theme].primary }]}
-          onPress={() => setShowBecomeWriterModal(true)}
-        >
-          <RNText style={[styles.becomeWriterBtnText, { color: 'white' }]}>Devenir Écrivain</RNText>
-        </TouchableOpacity>
-
-        {/* Modal de biographie */}
-        <ModalSheet
-          visible={showBecomeWriterModal}
-          onClose={() => setShowBecomeWriterModal(false)}
-          animationType="fade"
-        >
-          <RNText style={[styles.modalTitle, { color: Colors[theme].text }]}>Parlez-nous de vous</RNText>
-          <AuthInput
-            label="Votre biographie ou motivation"
-            value={biographie}
-            onChangeText={setBiographie}
-            placeholder="Ex: Passionné d'histoires d'amour et de mystères..."
-            multiline
-          />
-          <ModalActionButtons
-            onCancel={() => setShowBecomeWriterModal(false)}
-            onConfirm={handleBecomeWriter}
-            confirmLabel="Confirmer"
-            loading={isLoading}
-          />
-        </ModalSheet>
+        <RNText style={[styles.roleFixedBadge, { color: Colors[theme].textHint, borderColor: Colors[theme].borderColor }]}>
+          Votre compte est enregistré comme Lecteur
+        </RNText>
       </View>
     );
   }
@@ -376,16 +325,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 24,
   },
-  becomeWriterBtn: {
-    marginTop: 30,
-    paddingHorizontal: 30,
-    paddingVertical: 15,
-    borderRadius: 16,
-  },
-  becomeWriterBtnText: {
-    color: 'white',
-    fontWeight: '800',
-    fontSize: 16,
+  roleFixedBadge: {
+    marginTop: 24,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 12,
+    borderWidth: 1,
+    fontSize: 13,
+    fontWeight: '600',
+    textAlign: 'center',
+    opacity: 0.6,
   },
   formContent: {
     paddingHorizontal: 20,

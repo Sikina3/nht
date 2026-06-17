@@ -5,6 +5,7 @@ import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 
 import { useColorScheme } from "@/components/useColorScheme";
 import Colors from "@/constants/Colors";
+import { useAuth } from "@/context/AuthContext";
 
 const { width } = Dimensions.get("window");
 
@@ -33,6 +34,9 @@ function TabBarIcon(props: {
 export default function TabLayout() {
   const theme = useColorScheme() ?? "light";
   const router = useRouter();
+  const { user } = useAuth();
+
+  const isWriter = user?.role?.toLowerCase() === "ecrivain";
 
   return (
     <Tabs
@@ -114,6 +118,8 @@ export default function TabLayout() {
         name="write"
         options={{
           headerShown: false,
+          href: isWriter ? undefined : null,
+          tabBarItemStyle: isWriter ? undefined : { display: "none" },
           tabBarIcon: ({ focused, color }) => (
             <TabBarIcon name="add-circle-sharp" focused={focused} color={color} />
           ),
@@ -124,6 +130,8 @@ export default function TabLayout() {
         options={{
           title: "Collection",
           headerShown: false,
+          href: isWriter ? undefined : null,
+          tabBarItemStyle: isWriter ? undefined : { display: "none" },
           tabBarIcon: ({ focused, color }) => (
             <TabBarIcon name="bookmark-sharp" focused={focused} color={color} />
           ),
